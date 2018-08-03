@@ -58,15 +58,8 @@ switch ($selecao) {
 		header("Location: scripts.php");
         break;
 
-        //save article and redirect
     case '2':
 	
-		//echo $grupo;
-		
-		//$resultado = fopen('http://localhost/slimtest/index.php/download/' . $grupo . '/' . $script, "r");
-		//$resultado = file_get_contents('http://localhost/slimtest/index.php/download/' . $grupo . '/' . $script);
-		//echo $resultado;
-		
 		$resultado = file_get_contents('http://localhost/slimtest/index.php/download/' . $grupo . '/' . $script);
 		
 		$file = 'C:/wamp/www/slimtest/uploads/' . $grupo . '/' . $script;
