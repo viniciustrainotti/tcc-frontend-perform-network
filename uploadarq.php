@@ -22,6 +22,7 @@ switch ($selecao) {
 
 		echo $uploaddir;
 		
+		//adicionado a adição do conteudo do script no banco com a identação 
 		$conteudo = file_get_contents($_FILES['userfile']['tmp_name']);
 		
 		echo $conteudo;
