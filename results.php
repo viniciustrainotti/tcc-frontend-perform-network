@@ -106,7 +106,16 @@ $email = $_SESSION["email"];
 						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
 					</li>
 					<li>
+						<a href="parameters.php" class="active"><i class="fa fa-list fa-fw"></i> Parâmetros</a>
+					</li>
+					<li>
 						<a href="scripts.php" class="active"><i class="fa fa-tasks fa-fw"></i> Scripts</a>
+					</li>
+					<li>
+						<a href="tableARP.php" class="active"><i class="fa fa-exchange fa-fw"></i> Tabela ARP</a>
+					</li>
+					<li>
+						<a href="tableROUTE.php" class="active"><i class="fa fa-location-arrow fa-fw"></i> Tabela Roteamento</a>
 					</li>
 					<li>
 						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
