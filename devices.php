@@ -173,6 +173,10 @@ $email = $_SESSION["email"];
                                                 <th>NOME</th>
 												<th>STATUS</th>
 												<th>SERVIÇO</th>
+												<th>ADDRESS ESTÁTICO</th>
+												<th>NETMASK ESTÁTICO</th>
+												<th>GATEWAY ESTÁTICO</th>
+												<th>NAMESERVER ESTÁTICO</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -180,7 +184,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT pvid, user, senha, nome, conectado, servicos FROM dispositivos ORDER BY pvid";
+										$query = "SELECT pvid, user, senha, nome, conectado, servicos, DHCP_ip, DHCP_mascara, DHCP_gateway, DHCP_dns, usou_dhcp FROM dispositivos ORDER BY pvid";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
@@ -203,8 +207,18 @@ $email = $_SESSION["email"];
 											}else{
 												$servicos = "COM SERVIÇO";
 											}
+											$DHCP_ip = $row["DHCP_ip"];
+											$DHCP_mascara = $row["DHCP_mascara"];
+											$DHCP_gateway = $row["DHCP_gateway"];
+											$DHCP_dns = $row["DHCP_dns"];
+											$usou_dhcp = $row["usou_dhcp"];
+											if($usou_dhcp == 0){											
+												$color1 = "white";
+											}else{
+												$color1 = "blue";
+											}
 											
-											echo "<tr><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servicos."</td></tr>";
+											echo "<tr><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servicos."</td><td style='background:".$color1.";'>".$DHCP_ip."</td><td>".$DHCP_mascara."</td><td>".$DHCP_gateway."</td><td>".$DHCP_dns."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
@@ -243,10 +257,28 @@ $email = $_SESSION["email"];
 										<label>Informe novo Nome</label>
 										<input class="form-control" name="dvnome" placeholder="Por exemplo: uxux">
 									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático IP</label>
+										<input class="form-control" name="dvdhcpip" placeholder="Por exemplo: 192.168.0.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático Máscara</label>
+										<input class="form-control" name="dvdhcpmask" placeholder="Por exemplo: 255.255.255.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático Gateway</label>
+										<input class="form-control" name="dvdhcpgateway" placeholder="Por exemplo: 192.168.0.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático DNS</label>
+										<input class="form-control" name="dvdhcpdns" placeholder="Por exemplo: 8.8.8.8">
+									</div>
+									
 									<!-- <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" > -->
 									<!-- <input type="submit" class="btn btn-primary" value="Adicionar"> -->
 									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
 									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
+									<button type="submit" class="btn btn-success" name="selecao" value="3">Atualizar</button>
 								</form>
 							</div>
 						</div>
