@@ -56,8 +56,8 @@ $email = $_SESSION["email"];
     <![endif]-->
 <script>
  $(document).ready(function(){
-		$('#grupo').change(function(){
-			$('#teste').load('profileselect.php?grupo='+$('#grupo').val());
+		$('#pvid').change(function(){
+			$('#teste').load('arpselect.php?pvid='+$('#pvid').val());
 			//var r = $('#grupo').val();
 			//alert(r);
 		});
@@ -160,7 +160,7 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Perfil</h1>
+						<h1 class="page-header">Tabela ARP</h1>
 					</div>
 				</div>
 
@@ -169,78 +169,57 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Escolha o Perfil para vincular com os Scripts ou crie um novo perfil
+								Escolha o Dispositivo vinculado para comparação ARP cadastrado.
 							</div>						
 							<div class="panel-body">
-							<form method="post" action="perfiladd.php" enctype="multipart/form-data">
-								<p>Escolha o Perfil na lista para edição</p>
+							<form method="post" action="tabelaARPadd.php" enctype="multipart/form-data">
+								<p>Escolha o Dispositivo na lista para edição</p>
 								<div class="form-group">
-									<label>PERFIL</label>
-									<select class="form-control" name="perfil">
+									<label>DISPOSITIVO</label>
+									<select class="form-control" name="pvid" id="pvid">
 									<?php
 									
 										require_once('dbconnect.php');
 										
-										$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
+										$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
+											$pvid = $row["pvid"];
 											
-											echo "<option>".$nome_perfil."</option>";
+											echo "<option>".$pvid."</option>";
 										}
 									?>
 									</select>
 								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="grupo" id="grupo">
-										<?php
+								<p>Insira/Atualize a Tabela ARP do dispositivo selecionado</p>
+								<div class="form-group" id="teste">
+									<label>Adicione o texto conforme IP (Espaço) MAC. Ex.: 192.168.1.1 30-99-35-9f-00-0b</label>
+									<textarea class="form-control" name="arp" id="arp" rows="5">
+									<?php
+									
+										require_once('dbconnect.php');
 										
-											require_once('dbconnect.php');
-											
-											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option value=".$gruposcript.">".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-										<p>Escolha o Script respectivamente para vincular ao Perfil</p>
-										<div class="form-group" id="teste">
-											<label>SCRIPT</label>
-											<select class="form-control" name="script">
-												<?php
-													
-													require_once('dbconnect.php');
-													
-													//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
-													$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
-													$result = $mysqli->query($query);
-													
-													while($row = $result->fetch_assoc()){
-														$data[] = $row;
-														$nomescript = $row["nomescript"];
-														
-														echo "<option>".$nomescript."</option>";
-													}
+										$query = "SELECT arp_conteudo FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
+										$result = $mysqli->query($query);
 										
-												?>
-											</select>
-										</div>
-									<p>
-										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Perfil ao Script</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Perfil ao Script</button>
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$arp_conteudo = $row["arp_conteudo"];
+		
+											echo $arp_conteudo;
+											
+										}
+									?>
+									</textarea>
+								</div>
+								<p>
+									<button type="submit" class="btn btn-primary" name="selecao" value="1">Inserir</button>
+									<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
+									<button type="submit" class="btn btn-danger" name="selecao" value="3">Comparar</button>
 									</p>
-								</form>
+							</form>
 							</div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
@@ -249,64 +228,6 @@ $email = $_SESSION["email"];
 						</div>
 					</div>
 					<!-- /.col-lg-1 -->
-					<!-- col-lg-2-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-									Inserir Novo Perfil
-							</div>
-							<div class="panel-body">
-								<form role="form" method="post" action="perfiladd.php">
-									<div class="form-group">
-										<label>Informe o nome do novo Perfil</label>
-										<input class="form-control" name="perfil" placeholder="Por exemplo: perfilx">
-									</div>
-									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
-								</form>
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-2-->
-					<!-- col-lg-3-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Lista de Perfis vinculados à scripts
-							</div>                            
-							<div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>PERFIL</th>
-                                                <th>SCRIPT</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-										<?php 
-										
-										require_once('dbconnect.php');
-
-										$query = "SELECT nome_perfil, nome_script FROM perfil_script ORDER BY nome_perfil,nome_script";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
-											$nome_script = $row["nome_script"];
-											
-											
-											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td></tr>";
-										}?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
-						</div>
-					</div>
-					<!-- /.col-lg-3 -->
 				</div>
 			</div>
 		</div>
