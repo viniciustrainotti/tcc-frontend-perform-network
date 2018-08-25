@@ -160,110 +160,38 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Perfil</h1>
+						<h1 class="page-header">Parâmetros</h1>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Escolha o Perfil para vincular com os Scripts ou crie um novo perfil
-							</div>						
-							<div class="panel-body">
-							<form method="post" action="perfiladd.php" enctype="multipart/form-data">
-								<p>Escolha o Perfil na lista para edição</p>
-								<div class="form-group">
-									<label>PERFIL</label>
-									<select class="form-control" name="perfil">
-									<?php
-									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
-											
-											echo "<option>".$nome_perfil."</option>";
-										}
-									?>
-									</select>
-								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="grupo" id="grupo">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option value=".$gruposcript.">".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-										<p>Escolha o Script respectivamente para vincular ao Perfil</p>
-										<div class="form-group" id="teste">
-											<label>SCRIPT</label>
-											<select class="form-control" name="script">
-												<?php
-													
-													require_once('dbconnect.php');
-													
-													//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
-													$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
-													$result = $mysqli->query($query);
-													
-													while($row = $result->fetch_assoc()){
-														$data[] = $row;
-														$nomescript = $row["nomescript"];
-														
-														echo "<option>".$nomescript."</option>";
-													}
-										
-												?>
-											</select>
-										</div>
-									<p>
-										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Perfil ao Script</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Perfil ao Script</button>
-									</p>
-								</form>
-							</div>
-                            <!-- /.panel-body -->
-							<div class="panel-footer">
-								Observações
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-1 -->
 					<!-- col-lg-2-->
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-									Inserir Novo Perfil
+									Inserir novos Parâmetros
 							</div>
 							<div class="panel-body">
-								<form role="form" method="post" action="perfiladd.php">
-									<div class="form-group">
-										<label>Informe o nome do novo Perfil</label>
-										<input class="form-control" name="perfil" placeholder="Por exemplo: perfilx">
+								<div class="row">
+								<form role="form" method="post" action="parametroadd.php">
+                                    <div class="col-lg-6">
+											<div class="form-group">
+												<label>Informe o nome do novo Parâmetro</label>
+												<input class="form-control" name="parametro_variavel" placeholder="Por exemplo: T">
+											</div>
+											<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
+											<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
+											<button type="submit" class="btn btn-danger" name="selecao" value="3">Excluir</button>
 									</div>
-									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
-								</form>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Informe o valor do novo Parâmetro</label>
+											<input class="form-control" name="parametro_valor" placeholder="Por exemplo: 10">
+										</div>
+									</div>
+								</form>	
+								</div>
 							</div>
 						</div>
 					</div>
@@ -272,15 +200,16 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Lista de Perfis vinculados à scripts
+								Lista de Parâmetros adicionados
 							</div>                            
 							<div class="panel-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>PERFIL</th>
-                                                <th>SCRIPT</th>
+                                                <th>SEQUÊNCIA</th>
+												<th>VARIÁVEL</th>
+                                                <th>VALOR</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -288,16 +217,17 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT nome_perfil, nome_script FROM perfil_script ORDER BY nome_perfil,nome_script";
+										$query = "SELECT idparametros, parametro_variavel, parametro_valor FROM parametros ORDER BY idparametros";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
-											$nome_script = $row["nome_script"];
+											$idparametros = $row["idparametros"];
+											$parametro_variavel = $row["parametro_variavel"];
+											$parametro_valor = $row["parametro_valor"];
 											
 											
-											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td></tr>";
+											echo "<tr><td>".$idparametros."</td><td>".$parametro_variavel."</td><td>".$parametro_valor."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
