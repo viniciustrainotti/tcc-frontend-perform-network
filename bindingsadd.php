@@ -81,7 +81,32 @@ switch ($selecao) {
 		
 	case '3':
 	
-		$sql = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
+		$consulta_parametros = mysql_query("SELECT nome_script FROM perfil_script_parametro WHERE nome_perfil = '$perfil'") or die(mysql_error());
+		
+		echo $consulta_parametros;
+		
+		while($row = mysql_fetch_assoc($consulta_parametros)){
+		
+			$nome_script = $row['nome_script'];
+			echo $nome_script;
+		}
+		
+		//echo $nome_script;
+			
+		$consulta_parametros_conteudo = mysql_query("SELECT nome_parametro FROM perfil_script_parametro WHERE nome_perfil = '$perfil' AND nome_script = '$nome_script'") or die(mysql_error());
+		
+		while($roow = mysql_fetch_assoc($consulta_parametros_conteudo)){
+		
+			$nome_parametro = $roow['nome_parametro'];
+			
+			$consulta_parametros_conteudo_variavel = mysql_query("SELECT conteudo FROM parametros WHERE parametro_variavel = '$nome_parametro'") or die(mysql_error());
+			
+			echo $consulta_parametros_conteudo_variavel;
+			
+		
+		}
+	
+		/*$sql = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
 		
 		if ($sql == TRUE) {
 			echo "<center>Serviço Vinculado com Sucesso!</center>";
@@ -208,7 +233,7 @@ switch ($selecao) {
 			echo "<center>Não foi possível Vincular o Script ao Perfil!</center>";
 			echo "<script>loginfailed()</script>";
 		}
-
+*/
         break;
 	
 	case '4':

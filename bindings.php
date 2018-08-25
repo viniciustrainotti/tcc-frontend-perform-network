@@ -193,7 +193,7 @@ $email = $_SESSION["email"];
 											require_once('dbconnect.php');
 											
 											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-											$query = "SELECT nome_perfil FROM perfil";
+											$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
 											$result = $mysqli->query($query);
 											
 											while($row = $result->fetch_assoc()){
@@ -213,7 +213,7 @@ $email = $_SESSION["email"];
 											
 												require_once('dbconnect.php');
 												
-												$query = "SELECT nome_servicos FROM servicos_tipos";
+												$query = "SELECT nome_servicos FROM servicos_tipos ORDER BY idservicos_tipos";
 												$result = $mysqli->query($query);
 												
 												while($row = $result->fetch_assoc()){

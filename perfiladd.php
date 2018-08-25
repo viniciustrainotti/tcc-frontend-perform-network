@@ -48,6 +48,7 @@ $selecao = $_POST['selecao'];
 $perfil = $_POST['perfil'];
 $grupo = $_POST['grupo'];
 $script = $_POST['script'];
+$parametro = $_POST['parametro'];
 //$nome = $_POST['dvnome'];
 
 switch ($selecao) {
@@ -88,10 +89,10 @@ switch ($selecao) {
 		
 	case '3':
 	
-		$sql = mysql_query("INSERT INTO perfil_script (nome_perfil, nome_script) VALUES ('$perfil', '$script')") or die(mysql_error());
+		$sql = mysql_query("INSERT INTO perfil_script_parametro (nome_perfil, nome_script, nome_parametro) VALUES ('$perfil', '$script', '$parametro')") or die(mysql_error());
 
 		if ($sql == TRUE) {
-			echo "<center>Script Vinculado com Sucesso ao Perfil!</center>";
+			echo "<center>Script e Parametro Vinculado com Sucesso ao Perfil!</center>";
 			
 			$diretorio = 'C:/wamp/www/slimtest/perfil/' . $perfil . '/';
 
@@ -133,7 +134,7 @@ switch ($selecao) {
 			
 			echo "<script>loginsucessfully()</script>";
 		} else {
-			echo "<center>Não foi possível Vincular o Script ao Perfil!</center>";
+			echo "<center>Não foi possível Vincular o Script e Parametro ao Perfil!</center>";
 			echo "<script>loginfailed()</script>";
 		}
 
@@ -141,7 +142,7 @@ switch ($selecao) {
 	
 	case '4':
 	
-		$sql = mysql_query("DELETE FROM perfil_script WHERE nome_perfil ='$perfil' AND nome_script = '$script';") or die(mysql_error());
+		$sql = mysql_query("DELETE FROM perfil_script_parametro WHERE nome_perfil ='$perfil' AND nome_script = '$script' AND nome_parametro = '$parametro';") or die(mysql_error());
 
 		if ($sql == TRUE) {
 			echo "<center>Vinculo Excluido com Sucesso!</center>";

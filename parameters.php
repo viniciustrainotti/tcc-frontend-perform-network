@@ -176,19 +176,21 @@ $email = $_SESSION["email"];
 								<div class="row">
 								<form role="form" method="post" action="parametroadd.php">
                                     <div class="col-lg-6">
-											<div class="form-group">
-												<label>Informe o nome do novo Parâmetro</label>
-												<input class="form-control" name="parametro_variavel" placeholder="Por exemplo: T">
-											</div>
-											<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-											<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
-											<button type="submit" class="btn btn-danger" name="selecao" value="3">Excluir</button>
+										<div class="form-group">
+											<label>Informe o nome do novo Parâmetro ou Digite o nome para Atualização</label>
+											<input class="form-control" name="parametro_variavel" placeholder="Por exemplo: T">
+										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label>Informe o valor do novo Parâmetro</label>
+											<label>Informe o valor do novo Parâmetro ou Digite o valor para Atualização</label>
 											<input class="form-control" name="parametro_valor" placeholder="Por exemplo: 10">
 										</div>
+									</div>
+									<div class="col-lg-6">
+										<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
+										<button type="submit" class="btn btn-success" name="selecao" value="3">Atualizar</button>
+										<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
 									</div>
 								</form>	
 								</div>

@@ -236,6 +236,27 @@ $email = $_SESSION["email"];
 												?>
 											</select>
 										</div>
+										<p>Escolha o Parâmetro respectivamente para vincular ao Script e Perfil</p>
+										<div class="form-group" id="parametro">
+											<label>PARÂMETRO</label>
+											<select class="form-control" name="parametro">
+												<?php
+													
+													require_once('dbconnect.php');
+													
+													$query = "SELECT parametro_variavel FROM parametros ORDER BY idparametros";
+													$result = $mysqli->query($query);
+													
+													while($row = $result->fetch_assoc()){
+														$data[] = $row;
+														$parametro_variavel = $row["parametro_variavel"];
+														
+														echo "<option>".$parametro_variavel."</option>";
+													}
+										
+												?>
+											</select>
+										</div>
 									<p>
 										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Perfil ao Script</button>
 										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Perfil ao Script</button>
@@ -281,6 +302,7 @@ $email = $_SESSION["email"];
                                             <tr>
                                                 <th>PERFIL</th>
                                                 <th>SCRIPT</th>
+												<th>PARAMETRO</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -288,16 +310,17 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT nome_perfil, nome_script FROM perfil_script ORDER BY nome_perfil,nome_script";
+										$query = "SELECT nome_perfil, nome_script, nome_parametro FROM perfil_script_parametro ORDER BY nome_perfil,nome_script";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
 											$nome_perfil = $row["nome_perfil"];
 											$nome_script = $row["nome_script"];
+											$nome_parametro = $row["nome_parametro"];
 											
 											
-											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td></tr>";
+											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td><td>".$nome_parametro."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
