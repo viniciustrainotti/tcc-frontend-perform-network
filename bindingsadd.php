@@ -81,31 +81,87 @@ switch ($selecao) {
 		
 	case '3':
 	
-		$consulta_parametros = mysql_query("SELECT nome_script FROM perfil_script_parametro WHERE nome_perfil = '$perfil'") or die(mysql_error());
+		$consulta_parametros = mysql_query("SELECT nome_script FROM perfil_script_parametro WHERE nome_perfil = '$perfil' GROUP BY nome_script") or die(mysql_error());
 		
-		echo $consulta_parametros;
+		//echo $consulta_parametros;
 		
 		while($row = mysql_fetch_assoc($consulta_parametros)){
 		
-			$nome_script = $row['nome_script'];
-			echo $nome_script;
+			$nome_script[] = $row['nome_script'];
+			
 		}
 		
-		//echo $nome_script;
-			
-		$consulta_parametros_conteudo = mysql_query("SELECT nome_parametro FROM perfil_script_parametro WHERE nome_perfil = '$perfil' AND nome_script = '$nome_script'") or die(mysql_error());
+		//print_r($nome_script);
 		
-		while($roow = mysql_fetch_assoc($consulta_parametros_conteudo)){
+		$count = count($nome_script);
 		
-			$nome_parametro = $roow['nome_parametro'];
+		//echo $count;
+		
+		for($i = 0; $i < $count; $i++){
+		
+			$nomes_parametros = "";
+			$conteudo_parametros_array = "";
+
+			$parametros = mysql_query("SELECT nome_parametro FROM perfil_script_parametro WHERE nome_perfil = '$perfil' AND nome_script = '$nome_script[$i]'") or die(mysql_error());
 			
-			$consulta_parametros_conteudo_variavel = mysql_query("SELECT conteudo FROM parametros WHERE parametro_variavel = '$nome_parametro'") or die(mysql_error());
+			while ($row = mysql_fetch_assoc($parametros)) {
+				
+				$nomes_parametros[] = $row['nome_parametro'];
+				
+				//echo $arquivo_parametros ." ";
+			}
+
+			//print_r($nomes_parametros);
 			
-			echo $consulta_parametros_conteudo_variavel;
+			foreach($nomes_parametros as $nome_parametro){
 			
+				$conteudo_parametros = mysql_query("SELECT conteudo FROM parametros WHERE parametro_variavel = '$nome_parametro'") or die(mysql_error());
+			
+				while ($row = mysql_fetch_assoc($conteudo_parametros)) {
+				
+				$conteudo_parametros_array .= $row['conteudo'] . " \n";
+				
+				}
+			
+			}
+			
+			//echo "parametros conteudo " . $conteudo_parametros_array;
+			
+			//echo "SELECT conteudo FROM scripts WHERE nomescript = '$nome_script[$i]';";
+			
+			$cont_script = mysql_query("SELECT conteudo FROM scripts WHERE nomescript = '$nome_script[$i]';") or die(mysql_error());
+			
+			while ($row = mysql_fetch_assoc($cont_script)) {
+				
+				$conte_script = $row['conteudo'] . " \n";
+				
+			}
+			
+			//echo "conteudo script" . $conte_script;
+			
+			$cabecalho = "# Servico " . $servico . " do Dispositivo " . $dispositivo . " do " . $perfil . " que executará o " . $nome_script[$i] . " \n \n";
+			
+			$cabecalho_parametros = "# Parametros vinculados \n \n";
+			
+			$conteudo_parametros_array;
+			
+			$cabecalho_script = "\n# Script \n \n";
+			
+			$conte_script;
+			
+			$rodape = "\n# final do arquivo";
+			
+			$arquivo_final = $cabecalho . $cabecalho_parametros . $conteudo_parametros_array . $cabecalho_script . $conte_script . $rodape;
+			
+			echo $arquivo_final;
+			
+			//salvar_arquivo = mysql_query(
 		
 		}
+		
+		
 	
+		//retirado a questao de arquivos e deixado só no WS REST
 		/*$sql = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
 		
 		if ($sql == TRUE) {
