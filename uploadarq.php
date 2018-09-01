@@ -2,9 +2,7 @@
 // Nas versões do PHP anteriores a 4.1.0, $HTTP_POST_FILES deve ser utilizado ao invés
 // de $_FILES.
 
-$conn = @mysql_connect('localhost','root','') or die(mysql_error());
-
-mysql_select_db('teste', $conn);
+require("dbconnect_system.php");
 
 $selecao = $_POST['selecao'];
 $grupo = $_POST['grupo'];

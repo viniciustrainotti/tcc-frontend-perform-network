@@ -98,7 +98,21 @@ $email = $_SESSION["email"];
 				<ul class="nav" id="side-menu">
 					
 					<li>
-						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos</a>
+						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="devices.php">Dashboard</a>
+							</li>
+							<li>
+								<a href="devices_adicionar.php">Adicionar Dispositivo</a>
+							</li>
+							<li>
+								<a href="devices_editar.php">Editar Dispositivo</a>
+							</li>
+							<li>
+								<a href="devices_excluir.php">Excluir Dispositivo</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
@@ -179,7 +193,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid";
+										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid ORDER BY idservicos";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){

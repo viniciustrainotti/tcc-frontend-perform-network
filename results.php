@@ -98,7 +98,21 @@ $email = $_SESSION["email"];
 				<ul class="nav" id="side-menu">
 					
 					<li>
-						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos</a>
+						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="devices.php">Dashboard</a>
+							</li>
+							<li>
+								<a href="devices_adicionar.php">Adicionar Dispositivo</a>
+							</li>
+							<li>
+								<a href="devices_editar.php">Editar Dispositivo</a>
+							</li>
+							<li>
+								<a href="devices_excluir.php">Excluir Dispositivo</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>

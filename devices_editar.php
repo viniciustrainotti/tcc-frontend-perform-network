@@ -113,6 +113,7 @@ $email = $_SESSION["email"];
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
 						</ul>
+						<!-- /.nav-second-level -->
 					</li>
 					<li>
 						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
@@ -163,80 +164,61 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Scripts</h1>
+						<h1 class="page-header">Dispositivos</h1>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="row">
+					<!-- col-lg-1-->
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Escolha o Script para edição/exclusão ou adicione novos
-							</div>						
-							<div class="panel-body">
-							<form method="post" action="uploadarq.php" enctype="multipart/form-data">
-								<p>Escolha o Script na lista para edição</p>
-								<div class="form-group">
-									<label>SCRIPT</label>
-									<select class="form-control" name="script">
-									<?php
-									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nomescript = $row["nomescript"];
-											
-											echo "<option>".$nomescript."</option>";
-										}
-									?>
-									</select>
-								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="grupo">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option>".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-								
-									<!-- upload of a single file -->
-									<p>
-										<label>Selecione o Script para adicionar conforme o Grupo acima </label><br/>
-										<input type="file" name="userfile"/>
-									</p>
-									<p>
-										<button type="submit" class="btn btn-primary" name="selecao" value="1">Upload</button>
-										<button type="submit" class="btn btn-success" name="selecao" value="2">Download</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="3">Delete</button>
-										<!-- <input type="submit"/> -->
-									</p>
-								</form>
+									Editar Dispositivo
 							</div>
-                            <!-- /.panel-body -->
-							<div class="panel-footer">
-								Observações
+							<div class="panel-body">
+								<form role="form" method="post" action="deviceadd.php">
+									<div class="form-group">
+										<label>Informe PVID para editar informações</label>
+										<input class="form-control" name="dvpvid" placeholder="Por exemplo: 10">
+									</div>
+									<div class="form-group">
+										<label>Informe novo User</label>
+										<input class="form-control" name="dvuser" placeholder="Por exemplo: blabla">
+									</div>
+									<div class="form-group">
+										<label>Informe nova Senha</label>
+										<input class="form-control" name="dvsenha" placeholder="Por exemplo: 1234">
+									</div>
+									<div class="form-group">
+										<label>Informe novo Nome</label>
+										<input class="form-control" name="dvnome" placeholder="Por exemplo: uxux">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático IP</label>
+										<input class="form-control" name="dvdhcpip" placeholder="Por exemplo: 192.168.0.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático Máscara</label>
+										<input class="form-control" name="dvdhcpmask" placeholder="Por exemplo: 255.255.255.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático Gateway</label>
+										<input class="form-control" name="dvdhcpgateway" placeholder="Por exemplo: 192.168.0.X">
+									</div>
+									<div class="form-group">
+										<label>Informe Endereçamento Estático DNS</label>
+										<input class="form-control" name="dvdhcpdns" placeholder="Por exemplo: 8.8.8.8">
+									</div>
+									
+									<!-- <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" > -->
+									<!-- <input type="submit" class="btn btn-primary" value="Adicionar"> -->
+									<button type="submit" class="btn btn-success" name="selecao" value="3">Editar</button>
+								</form>
 							</div>
 						</div>
 					</div>
-					<!-- /.col-lg-1 -->
+					<!-- col-lg-1-->
 				</div>
 			</div>
 		</div>
@@ -247,8 +229,8 @@ $email = $_SESSION["email"];
 <script src="js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
 
+<script src="js/bootstrap.min.js"></script>
 <!-- Metis Menu Plugin JavaScript -->
 <script src="js/metisMenu.min.js"></script>
 
@@ -257,7 +239,5 @@ $email = $_SESSION["email"];
 
 </body>
 </html>
-
-
 
 

@@ -1,7 +1,5 @@
 <?php
-$conn = @mysql_connect('localhost','root','') or die(mysql_error());
-
-mysql_select_db('teste', $conn);
+require("dbconnect_system.php");
 ?>
 
 <html>
@@ -32,7 +30,7 @@ switch ($selecao) {
 	
 	//echo $parametro_variavel . " " . $parametro_valor;
 	
-		$conteudo_teste = "$".$parametro_variavel." = ".$parametro_valor.";";
+		$conteudo_teste = $parametro_variavel." = ".$parametro_valor.";";
 		
 		echo $conteudo_teste;
 		

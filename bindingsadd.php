@@ -1,7 +1,5 @@
 <?php
-$conn = @mysql_connect('localhost','root','') or die(mysql_error());
-
-mysql_select_db('teste', $conn);
+require("dbconnect_system.php");
 ?>
 
 <html>
@@ -139,7 +137,7 @@ switch ($selecao) {
 			
 			//echo "conteudo script" . $conte_script;
 			
-			$cabecalho = "# Servico " . $servico . " do Dispositivo " . $dispositivo . " do " . $perfil . " que executará o " . $nome_script[$i] . " \n \n";
+			$cabecalho = "# Servico " . $servico . " do Dispositivo " . $dispositivo . " do " . $perfil . " que executara o " . $nome_script[$i] . " \n \n";
 			
 			$cabecalho_parametros = "# Parametros vinculados \n \n";
 			
@@ -155,11 +153,21 @@ switch ($selecao) {
 			
 			echo $arquivo_final;
 			
-			//salvar_arquivo = mysql_query(
+			$sql_qtde_parametros = mysql_query("SELECT COUNT(*) AS qtde_parametros FROM perfil_script_parametro WHERE nome_perfil = '$perfil' AND nome_script = '$nome_script[$i]';") or die(mysql_error());
+			
+			while ($row = mysql_fetch_assoc($sql_qtde_parametros)) {
+				
+				$qtde_parametros = $row['qtde_parametros'];
+				
+			}
+			
+			$salvar_arquivo = mysql_query("INSERT INTO arquivos_teste (arquivo_final, servico, script, qtde_parametros, dispositivo) VALUES ('$arquivo_final', '$servico', '$nome_script[$i]', '$qtde_parametros', '$dispositivo')") or die (mysql_error());
+			
+			$liberacao_servico = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
 		
 		}
-		
-		
+		echo "Arquivo Vinculado com Sucesso!";
+		echo "<script>loginsucessfully()</script>";
 	
 		//retirado a questao de arquivos e deixado só no WS REST
 		/*$sql = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
