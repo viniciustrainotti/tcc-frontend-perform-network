@@ -161,7 +161,7 @@ switch ($selecao) {
 				
 			}
 			
-			$salvar_arquivo = mysql_query("INSERT INTO arquivos_teste (arquivo_final, servico, script, qtde_parametros, dispositivo) VALUES ('$arquivo_final', '$servico', '$nome_script[$i]', '$qtde_parametros', '$dispositivo')") or die (mysql_error());
+			$salvar_arquivo = mysql_query("INSERT INTO arquivos_teste (arquivo_final, servico, perfil, script, qtde_parametros, dispositivo) VALUES ('$arquivo_final', '$servico', '$perfil', '$nome_script[$i]', '$qtde_parametros', '$dispositivo')") or die (mysql_error());
 			
 			$liberacao_servico = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
 		
@@ -303,6 +303,8 @@ switch ($selecao) {
 	case '4':
 	
 		$sql = mysql_query("DELETE FROM servicos WHERE nome_servico ='$servico' AND perfil = '$perfil' AND dispositivo = '$dispositivo';") or die(mysql_error());
+		
+		$sql_deleta_arquivo_db = mysql_query("DELETE FROM arquivos_teste WHERE servico ='$servico' AND perfil = '$perfil' AND dispositivo = '$dispositivo';") or die(mysql_error());
 
 		/*if ($sql == TRUE) {
 			echo "<center>Vinculo Excluido com Sucesso!</center>";
@@ -314,10 +316,10 @@ switch ($selecao) {
 			echo "<center>Não foi possível Excluido o Vinculo!</center>";
 			echo "<script>loginfailed()</script>";
 		}*/
+		//transferencia para somente utilizar REST do sistema
+		//$diretorioExcluir = 'C:/wamp/www/slimtest/servicos/' . $dispositivo . '/' . $servico;
 		
-		$diretorioExcluir = 'C:/wamp/www/slimtest/servicos/' . $dispositivo . '/' . $servico;
-		
-		deleteDirectory($diretorioExcluir);
+		//deleteDirectory($diretorioExcluir);
 		
 		echo "<center>Vinculo Excluido com Sucesso!</center>";
 		echo "<script>loginsucessfully()</script>";
