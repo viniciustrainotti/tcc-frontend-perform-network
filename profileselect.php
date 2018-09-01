@@ -3,7 +3,6 @@
 require_once('dbconnect.php');
 
 $gruposcript = $_GET['grupo'];
-
 echo "<label>SCRIPT</label>";
 echo "<select class='form-control' name='script'>";
 				
@@ -17,6 +16,5 @@ $query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDE
 		echo "<option>".$nomescript."</option>";
 	}
 echo "</select>";
-
 
 ?>

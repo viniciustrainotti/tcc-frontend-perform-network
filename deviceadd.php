@@ -18,6 +18,7 @@ function loginfailed(){
 
 <body>
 <?php
+
 $selecao = $_POST['selecao'];
 $pvid = $_POST['dvpvid'];
 $user = $_POST['dvuser'];
@@ -44,7 +45,7 @@ switch ($selecao) {
        break;
         //save article and redirect
     case '2':
-	
+
 		$sql = mysql_query("DELETE FROM dispositivos WHERE pvid ='$pvid';") or die(mysql_error());
 
 		if ($sql == TRUE) {
@@ -111,7 +112,7 @@ switch ($selecao) {
 		
 		}
 		
-		$sql = mysql_query("UPDATE dispositivos SET DHCP_ip = '$dvdhcpip', DHCP_mascara = '$dvdhcpmask', DHCP_gateway = '$dvdhcpgateway', DHCP_dns = '$dvdhcpdns' WHERE pvid = '$pvid'") or die(mysql_error());
+		$sql = mysql_query("UPDATE dispositivos SET user = '$user', senha = '$dvsenha', nome = '$nome', DHCP_ip = '$dvdhcpip', DHCP_mascara = '$dvdhcpmask', DHCP_gateway = '$dvdhcpgateway', DHCP_dns = '$dvdhcpdns' WHERE pvid = '$pvid'") or die(mysql_error());
 
 		if ($sql == TRUE) {
 			echo "<center>Dispositivo Atualizado DHCP com Sucesso!</center>";

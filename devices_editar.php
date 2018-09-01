@@ -52,7 +52,15 @@ $email = $_SESSION["email"];
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	
+<script>
+ $(document).ready(function(){
+		$('#dvpvid').change(function(){
+			$('#teste').load('device_select.php?dvpvid='+$('#dvpvid').val());
+			//var r = $('#grupo').val();
+			//alert(r);
+		});
+	});
+</script>	
 </head>
 <body>
 
@@ -180,39 +188,46 @@ $email = $_SESSION["email"];
 								<form role="form" method="post" action="deviceadd.php">
 									<div class="form-group">
 										<label>Informe PVID para editar informações</label>
-										<input class="form-control" name="dvpvid" placeholder="Por exemplo: 10">
+										<select class="form-control" name="dvpvid" id="dvpvid">
+										<?php
+										
+											require_once('dbconnect.php');
+											
+											$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo;";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$pvid = $row["pvid"];
+												
+												echo "<option value=".$pvid.">".$pvid."</option>";
+											}
+										?>
+										</select>
 									</div>
-									<div class="form-group">
+									<div class="form-group" id="teste">
 										<label>Informe novo User</label>
 										<input class="form-control" name="dvuser" placeholder="Por exemplo: blabla">
-									</div>
-									<div class="form-group">
+										</br> 
 										<label>Informe nova Senha</label>
 										<input class="form-control" name="dvsenha" placeholder="Por exemplo: 1234">
-									</div>
-									<div class="form-group">
+										</br>
 										<label>Informe novo Nome</label>
 										<input class="form-control" name="dvnome" placeholder="Por exemplo: uxux">
-									</div>
-									<div class="form-group">
+										</br>
 										<label>Informe Endereçamento Estático IP</label>
 										<input class="form-control" name="dvdhcpip" placeholder="Por exemplo: 192.168.0.X">
-									</div>
-									<div class="form-group">
+										</br>
 										<label>Informe Endereçamento Estático Máscara</label>
 										<input class="form-control" name="dvdhcpmask" placeholder="Por exemplo: 255.255.255.X">
-									</div>
-									<div class="form-group">
+										</br>
 										<label>Informe Endereçamento Estático Gateway</label>
 										<input class="form-control" name="dvdhcpgateway" placeholder="Por exemplo: 192.168.0.X">
-									</div>
-									<div class="form-group">
+										</br>
 										<label>Informe Endereçamento Estático DNS</label>
 										<input class="form-control" name="dvdhcpdns" placeholder="Por exemplo: 8.8.8.8">
 									</div>
 									
-									<!-- <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" > -->
-									<!-- <input type="submit" class="btn btn-primary" value="Adicionar"> -->
 									<button type="submit" class="btn btn-success" name="selecao" value="3">Editar</button>
 								</form>
 							</div>
