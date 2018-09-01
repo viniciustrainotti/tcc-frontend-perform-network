@@ -98,7 +98,7 @@ $email = $_SESSION["email"];
 				<ul class="nav" id="side-menu">
 					
 					<li>
-						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
+						<a href="#" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
 								<a href="devices.php">Dashboard</a>
@@ -137,7 +137,7 @@ $email = $_SESSION["email"];
 						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
 					</li>
 					<li>
-						<a href="results.php"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
+						<a href="results.php" class="active"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
 						<!-- <ul class="nav nav-second-level">
 							<li>
 								<a href="#">Second Level Item</a>

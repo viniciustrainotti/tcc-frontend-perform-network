@@ -107,7 +107,7 @@ $email = $_SESSION["email"];
 				<ul class="nav" id="side-menu">
 					
 					<li>
-						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
+						<a href="#" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos<span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li>
 								<a href="devices.php">Dashboard</a>
@@ -145,7 +145,7 @@ $email = $_SESSION["email"];
 						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
 					</li>
 					<li>
-						<a href="results.php"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
+						<a href="results.php" class="active"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
 						<!-- <ul class="nav nav-second-level">
 							<li>
 								<a href="#">Second Level Item</a>
@@ -172,153 +172,13 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Perfil</h1>
+						<h1 class="page-header">Tabela de Roteamento</h1>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Escolha o Perfil para vincular com os Scripts ou crie um novo perfil
-							</div>						
-							<div class="panel-body">
-							<form method="post" action="perfiladd.php" enctype="multipart/form-data">
-								<p>Escolha o Perfil na lista para edição</p>
-								<div class="form-group">
-									<label>PERFIL</label>
-									<select class="form-control" name="perfil">
-									<?php
-									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
-											
-											echo "<option>".$nome_perfil."</option>";
-										}
-									?>
-									</select>
-								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="grupo" id="grupo">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option value=".$gruposcript.">".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-										<p>Escolha o Script respectivamente para vincular ao Perfil</p>
-										<div class="form-group" id="teste">
-											<label>SCRIPT</label>
-											<select class="form-control" name="script">
-												<?php
-													
-													require_once('dbconnect.php');
-													
-													//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
-													$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
-													$result = $mysqli->query($query);
-													
-													while($row = $result->fetch_assoc()){
-														$data[] = $row;
-														$nomescript = $row["nomescript"];
-														
-														echo "<option>".$nomescript."</option>";
-													}
-										
-												?>
-											</select>
-										</div>
-									<p>
-										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Perfil ao Script</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Perfil ao Script</button>
-									</p>
-								</form>
-							</div>
-                            <!-- /.panel-body -->
-							<div class="panel-footer">
-								Observações
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-1 -->
-					<!-- col-lg-2-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-									Inserir Novo Perfil
-							</div>
-							<div class="panel-body">
-								<form role="form" method="post" action="perfiladd.php">
-									<div class="form-group">
-										<label>Informe o nome do novo Perfil</label>
-										<input class="form-control" name="perfil" placeholder="Por exemplo: perfilx">
-									</div>
-									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
-								</form>
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-2-->
-					<!-- col-lg-3-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Lista de Perfis vinculados à scripts
-							</div>                            
-							<div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>PERFIL</th>
-                                                <th>SCRIPT</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-										<?php 
-										
-										require_once('dbconnect.php');
-
-										$query = "SELECT nome_perfil, nome_script FROM perfil_script ORDER BY nome_perfil,nome_script";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nome_perfil = $row["nome_perfil"];
-											$nome_script = $row["nome_script"];
-											
-											
-											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td></tr>";
-										}?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
-						</div>
-					</div>
-					<!-- /.col-lg-3 -->
+					
 				</div>
 			</div>
 		</div>
