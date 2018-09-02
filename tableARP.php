@@ -193,7 +193,7 @@ $email = $_SESSION["email"];
 									
 										require_once('dbconnect.php');
 										
-										$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
+										$query = "SELECT pvid FROM dispositivos ORDER BY pvid";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
