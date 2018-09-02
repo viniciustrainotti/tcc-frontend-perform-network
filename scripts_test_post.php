@@ -153,59 +153,27 @@ $email = $_SESSION["email"];
 							</div>						
 							<div class="panel-body">
 							
-								<p>Escolha o Script na lista para edição</p>
-								<div class="form-group">
-									<label>SCRIPT</label>
-									<select class="form-control" name="disp">
-									<?php
+								<form action="/slimtest/index.php/arp_rasp" method="post">
+									  Arp comparação: <input type="text" name="arp_comparacao" id="arp_comparacao"><br>
+									  <input type="submit" value="Submit">
+									</form>
+							</div>
+							
+							<div class="panel-body">
+							<form method="post" action="/slimtest/index.php/arp_rasp" enctype="multipart/form-data">
+								
+								<p>teste post</p>
+								<div class="form-group" id="teste">
+									<label>Adicione o texto conforme IP (Espaço) MAC. Ex.: 192.168.1.1 30-99-35-9f-00-0b</label>
+									<input type="text" name="arp_pvid" id="arp_pvid"><br>
+									<textarea class="form-control" name="arp_comparacao" id="arp_comparacao" rows="5">
 									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT nomescript FROM scripts";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nomescript = $row["nomescript"];
-											
-											echo "<option>".$nomescript."</option>";
-										}
-									?>
-									</select>
+									</textarea>
 								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="perfil">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option>".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-								<form method="post" action="uploadrasp.php" enctype="multipart/form-data">
-									<!-- upload of a single file -->
-									<p>
-										<label>Selecione o Script para adicionar conforme o Grupo acima </label><br/>
-										<input type="file" name="logfile"/>
+								<p>
+									<button type="submit" class="btn btn-primary" name="selecao">POST</button>
 									</p>
-									<p>
-										<button type="submit" class="btn btn-primary">Uploaddddd</button>
-										<!--<button type="submit" class="btn btn-success" name="selecao" value="2">Download</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="3">Delete</button>
-										<!-- <input type="submit"/> -->
-									</p>
-								</form>
+							</form>
 							</div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
