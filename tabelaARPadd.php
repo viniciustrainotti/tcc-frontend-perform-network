@@ -8,10 +8,10 @@ require("dbconnect_system.php");
 <title>Adicionando Dispositivo</title>
 <script type = "text/javascript">
 function loginsucessfully(){
-	setTimeout("window.location='tableARP.php'", 2000);
+	setTimeout("window.location='tableARP.php'", 5000);
 }
 function loginfailed(){
-	setTimeout("window.location='tableARP.php'", 2000);
+	setTimeout("window.location='tableARP.php'", 5000);
 }
 </script>
 </head>
@@ -42,79 +42,50 @@ switch ($selecao) {
         //save article and redirect
     case '2':
 	
-		$sql = mysql_query("DELETE FROM dispositivos WHERE pvid ='$pvid';") or die(mysql_error());
+		$sql = mysql_query("UPDATE arp SET arp_conteudo = '$arp' WHERE pvid = '$pvid';") or die(mysql_error());
 
 		if ($sql == TRUE) {
-			echo "<center>Dispositivo Excluido com Sucesso!</center>";
+			echo "<center>ARP Atualizada com Sucesso!</center>";
 			echo "<script>loginsucessfully()</script>";
 		} else {
-			echo "<center>Não foi possível Excluido o dispositivo!</center>";
+			echo "<center>Não foi possível Atualizar os valores ARP!</center>";
 			echo "<script>loginfailed()</script>";
 		}
 
         break;
 	case '3':
 		
-		/*echo $dvdhcpip . " ";
-		echo $dvdhcpmask . " ";
-		echo $dvdhcpgateway . " ";
-		echo $dvdhcpdns . " ";*/
+		$sql_conteudo_escrito = mysql_query("SELECT arp_conteudo FROM arp WHERE pvid = '$pvid';") or die(mysql_error());
 		
-		if(empty($dvdhcpip)){
+		while($row = mysql_fetch_assoc($sql_conteudo_escrito)){
 			
-			$sql_ip = mysql_query("SELECT DHCP_ip FROM dispositivos WHERE pvid = '$pvid'");
-			
-			while($row = mysql_fetch_assoc($sql_ip)){
-				
-				$dvdhcpip = $row['DHCP_ip'];
-			
-			}
+			$conteudo_escrito_arp = $row['arp_conteudo'];
 		
 		}
 		
-		if(empty($dvdhcpmask)){
+		$sql_conteudo_recebido = mysql_query("SELECT arp_comparacao FROM arp WHERE pvid = '$pvid';") or die(mysql_error());
 		
-			$sql_mask = mysql_query("SELECT DHCP_mascara FROM dispositivos WHERE pvid = '$pvid'");
+			while($row = mysql_fetch_assoc($sql_conteudo_recebido)){
 			
-			while($row = mysql_fetch_assoc($sql_mask)){
-				
-				$dvdhcpmask = $row['DHCP_mascara'];
-			
-			}
+			$conteudo_recebido_arp = $row['arp_comparacao'];
 		
 		}
 		
-		if(empty($dvdhcpgateway)){
-		
-			$sql_gateway = mysql_query("SELECT DHCP_gateway FROM dispositivos WHERE pvid = '$pvid'");
+		if ($conteudo_escrito_arp === $conteudo_recebido_arp) {
 			
-			while($row = mysql_fetch_assoc($sql_gateway)){
-				
-				$dvdhcpgateway = $row['DHCP_gateway'];
+			echo "escrito " . $conteudo_escrito_arp . " e igual a " . $conteudo_recebido_arp;
 			
-			}
-		
-		}
-		
-		if(empty($dvdhcpdns)){
-		
-			$sql_dns = mysql_query("SELECT DHCP_dns FROM dispositivos WHERE pvid = '$pvid'");
+			$sql_status_arp = mysql_query("UPDATE arp SET arp_status = '1' WHERE pvid = '$pvid';") or die(mysql_error());
 			
-			while($row = mysql_fetch_assoc($sql_dns)){
-				
-				$dvdhcpdns = $row['DHCP_dns'];
-			
-			}
-		
-		}
-		
-		$sql = mysql_query("UPDATE dispositivos SET DHCP_ip = '$dvdhcpip', DHCP_mascara = '$dvdhcpmask', DHCP_gateway = '$dvdhcpgateway', DHCP_dns = '$dvdhcpdns' WHERE pvid = '$pvid'") or die(mysql_error());
-
-		if ($sql == TRUE) {
-			echo "<center>Dispositivo Atualizado DHCP com Sucesso!</center>";
+			//echo "<center>Dispositivo Atualizado DHCP com Sucesso!</center>";
 			echo "<script>loginsucessfully()</script>";
 		} else {
-			echo "<center>Não foi possível atualizar o dispositivo!</center>";
+		
+			echo "escrito " . $conteudo_escrito_arp . " e diferente a " . $conteudo_recebido_arp;
+			
+			$sql_status_arp = mysql_query("UPDATE arp SET arp_status = '0' WHERE pvid = '$pvid';") or die(mysql_error());
+			
+			//echo "<center>Não foi possível atualizar o dispositivo!</center>";
 			echo "<script>loginfailed()</script>";
 		}
 		
