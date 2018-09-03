@@ -113,7 +113,7 @@ switch ($selecao) {
 			
 			foreach($nomes_parametros as $nome_parametro){
 			
-				$conteudo_parametros = mysql_query("SELECT conteudo FROM parametros WHERE parametro_variavel = '$nome_parametro'") or die(mysql_error());
+				$conteudo_parametros = mysql_query("SELECT conteudo FROM parametros WHERE conteudo = '$nome_parametro'") or die(mysql_error());
 			
 				while ($row = mysql_fetch_assoc($conteudo_parametros)) {
 				

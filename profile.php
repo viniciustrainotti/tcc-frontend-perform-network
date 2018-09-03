@@ -256,12 +256,12 @@ $email = $_SESSION["email"];
 													
 													require_once('dbconnect.php');
 													
-													$query = "SELECT parametro_variavel FROM parametros ORDER BY idparametros";
+													$query = "SELECT conteudo FROM parametros ORDER BY idparametros";
 													$result = $mysqli->query($query);
 													
 													while($row = $result->fetch_assoc()){
 														$data[] = $row;
-														$parametro_variavel = $row["parametro_variavel"];
+														$parametro_variavel = $row["conteudo"];
 														
 														echo "<option>".$parametro_variavel."</option>";
 													}
