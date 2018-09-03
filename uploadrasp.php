@@ -73,6 +73,7 @@ if(is_dir($diretoriofinal)){
 		if($zip->extractTo($destino) == TRUE)*/
 		
 		$phar = new PharData($arquivo);
+		
 		//$phar->open($arquivo);
 		if($phar->extractTo($destino, null, true) == TRUE)
 		{
