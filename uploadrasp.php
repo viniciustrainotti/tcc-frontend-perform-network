@@ -150,9 +150,14 @@ if(is_dir($diretoriofinal)){
 		$arquivo = $uploadfile;
 		$destino = $uploaddir;
 
-		$zip = new ZipArchive;
+		/*$zip = new ZipArchive;
 		$zip->open($arquivo);
-		if($zip->extractTo($destino) == TRUE)
+		if($zip->extractTo($destino) == TRUE)*/
+		
+		$phar = new PharData($arquivo);
+		
+		//$phar->open($arquivo);
+		if($phar->extractTo($destino, null, true) == TRUE)
 		{
 			echo 'Arquivo descompactado com sucesso.';
 		}
