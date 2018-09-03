@@ -68,7 +68,7 @@ switch ($selecao) {
 	
 		$sql = mysql_query("DELETE FROM perfil WHERE nome_perfil ='$perfil';") or die(mysql_error());
 		
-		$sql1 = mysql_query("DELETE FROM perfil_script WHERE nome_perfil ='$perfil';") or die(mysql_error());
+		$sql1 = mysql_query("DELETE FROM perfil_script_parametro WHERE nome_perfil ='$perfil';") or die(mysql_error());
 
 		if ($sql == TRUE) {
 			echo "<center>Perfil Excluido com Sucesso!</center>";
