@@ -149,7 +149,7 @@ switch ($selecao) {
 			
 			$linha_fixa_1 = 'mkdir -p $repositorio/$rep_pvid/$rep_servicos/$rep_script \n';
 
-			$linha_fixa_2 = 'retorno=$repositorio/$rep_pvid/$rep_servicos/$rep_script \n\n';
+			$linha_fixa_2 = 'retorno=$repositorio/$rep_pvid/$rep_servicos/$rep_script/log \n\n';
 			
 			$cabecalho_parametros = "# Parametros vinculados \n \n";
 			
