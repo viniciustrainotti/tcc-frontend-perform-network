@@ -30,7 +30,7 @@ switch ($selecao) {
 	
 	//echo $parametro_variavel . " " . $parametro_valor;
 	
-		$conteudo_teste = $parametro_variavel." = ".$parametro_valor.";";
+		$conteudo_teste = $parametro_variavel."=".$parametro_valor.";";
 		
 		echo $conteudo_teste;
 		
