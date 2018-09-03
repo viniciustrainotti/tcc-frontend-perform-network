@@ -341,7 +341,9 @@ if(isset($_GET['servico'])){
 	$servico = NULL;
 }
 
-$connect = mysqli_connect("localhost", "root", "", "teste");
+require_once('dbconnect.php');
+
+$connect = mysqli_connect($host, $user, $pass, $db_name);
 $query = "SELECT * FROM retorno_scripts_teste WHERE num_servico = '$servico' ORDER BY idretorno_scripts_teste";
 $result = mysqli_query($connect, $query);
 $chart_data = '';
