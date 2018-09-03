@@ -139,6 +139,18 @@ switch ($selecao) {
 			
 			$cabecalho = "# Servico " . $servico . " do Dispositivo " . $dispositivo . " do " . $perfil . " que executara o " . $nome_script[$i] . " \n \n";
 			
+			$info_source = "source /boot/config.txt    ##repositorio=/home/pi/resultados \n \n";
+			
+			$rep_pvid = "rep_pvid=$dispositivo\n";
+			
+			$rep_servicos = "rep_pvid=$servico\n";
+			
+			$rep_script = "rep_script=$nome_script[$i]\n";
+			
+			$linha_fixa_1 = 'mkdir -p $repositorio/$rep_pvid/$rep_servicos/$rep_script \n';
+
+			$linha_fixa_2 = 'retorno=$repositorio/$rep_pvid/$rep_servicos/$rep_script \n\n';
+			
 			$cabecalho_parametros = "# Parametros vinculados \n \n";
 			
 			$conteudo_parametros_array;
@@ -149,7 +161,7 @@ switch ($selecao) {
 			
 			$rodape = "\n# final do arquivo";
 			
-			$arquivo_final = $cabecalho . $cabecalho_parametros . $conteudo_parametros_array . $cabecalho_script . $conte_script . $rodape;
+			$arquivo_final = $cabecalho . $info_source . $rep_pvid . $rep_servicos . $rep_script . $linha_fixa_1 . $linha_fixa_2 . $cabecalho_parametros . $conteudo_parametros_array . $cabecalho_script . $conte_script . $rodape;
 			
 			echo $arquivo_final;
 			
