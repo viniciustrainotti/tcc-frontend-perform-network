@@ -50,27 +50,31 @@ if(is_dir($diretoriofinal)){
 				
 				echo $icmp_seq . $ttl . $time . $resultado_array;
 				
-				$sql = "INSERT INTO retorno_scripts_teste (num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$icmp_seq', '$ttl', '$time', '$resultado_array')";
+				//$sql = "INSERT INTO retorno_scripts_teste (num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$icmp_seq', '$ttl', '$time', '$resultado_array')";
 				
-				$resultadoQuery = mysql_query($sql) or die(mysql_error());
+				//$resultadoQuery = mysql_query($sql) or die(mysql_error());
 				
 			
 			}else{
 			
 				$resultado_array = 0;
 			
-				$sql = "INSERT INTO retorno_scripts_teste (retorno_scripts_testecol) VALUES ('$resultado_array')";
+				//$sql = "INSERT INTO retorno_scripts_teste (retorno_scripts_testecol) VALUES ('$resultado_array')";
 				
-				$resultadoQuery = mysql_query($sql) or die(mysql_error());
+				//$resultadoQuery = mysql_query($sql) or die(mysql_error());
 			
 			}
 			
 		
 		}
 	
-		$zip = new ZipArchive;
+		/*$zip = new ZipArchive;
 		$zip->open($arquivo);
-		if($zip->extractTo($destino) == TRUE)
+		if($zip->extractTo($destino) == TRUE)*/
+		
+		$phar = new PharData($arquivo);
+		//$phar->open($arquivo);
+		if($phar->extractTo($destino, null, true) == TRUE)
 		{
 			echo 'Arquivo descompactado com sucesso.';
 			
@@ -78,14 +82,14 @@ if(is_dir($diretoriofinal)){
 			
 			while(($arquivo = $caminho->read()) !== false)
 			{
-				echo "verificando no banco o servico e os scripts";
-				if($arquivo != '..' && $arquivo != '.')
-				{
+				echo "verificando no banco o servico e os scripts\n\n\n";
+				//if($arquivo != '..' && $arquivo != '.')
+				//{
 					echo '<a href='.$destino.$arquivo.'>'.$arquivo.'</a><br />';
 					echo $arquivo;
 					$arr[] = $arquivo;
 					
-				}
+				//}
 			}
 
 			for($i = 0; $i < count($arr)-1; ++$i) {
