@@ -52,7 +52,15 @@ $email = $_SESSION["email"];
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	
+<script>
+ $(document).ready(function(){
+		$('#resultspvid').change(function(){
+			$('#teste').load('resultado_select.php?resultspvid='+$('#resultspvid').val());
+			//var r = $('#grupo').val();
+			//alert(r);
+		});
+	});
+</script>		
 </head>
 <body>
 
@@ -172,33 +180,55 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Selecione as informações desejadas para mostrar os resultados
+								Selecione primeiramente o Dispositivo para verificar quais serviços já foram retornados
 							</div>						
 							<div class="panel-body">
 							<form method="" action="" enctype="multipart/form-data">
-								<p>Escolha o Dispositivo</p>
 								<div class="form-group">
-									<label>DISPOSITIVO</label>
-									<select class="form-control" name="dispositivo">
-										<option>10</option>
-										<option>11</option>
-									</select>
-								</div>
-									<p>Escolha o Serviço</p>
-									<div class="form-group">
-										<label>SERVIÇO</label>
-										<select class="form-control" name="servico">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
+										<label>Escolha o Dispositivo</label>
+										<select class="form-control" name="resultspvid" id="resultspvid">
+										<?php
+										
+											require_once('dbconnect.php');
+											
+											$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo;";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$pvid = $row["pvid"];
+												
+												echo "<option value=".$pvid.">".$pvid."</option>";
+											}
+										?>
 										</select>
+									</div>
+									<div class="form-group" id="teste">
+										<label>Escolha o Serviço</label>
+											<select class="form-control" name="servico">
+											<?php
+												
+												require_once('dbconnect.php');
+												
+												//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
+												$query = "SELECT num_servico FROM retorno_scripts_teste WHERE pvid_dispositivo = '10' GROUP BY num_servico";
+												$result = $mysqli->query($query);
+												
+												while($row = $result->fetch_assoc()){
+													$data[] = $row;
+													$num_servico = $row["num_servico"];
+													
+													echo "<option>".$num_servico."</option>";
+												}
+									
+											?>
+											</select>
 									</div>
 									<p>
 										<button type="submit" class="btn btn-primary" name="selecao" value="1">Pesquisar</button>
 										<!-- <input type="submit"/> -->
 									</p>
-								</form>
+							</form>
 							</div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
@@ -223,60 +253,42 @@ $email = $_SESSION["email"];
                                                 <th>PVID</th>
                                                 <th>PERFIL</th>
                                                 <th>SERVIÇO</th>
-                                                <th>INICIO</th>
-												<th>FIM</th>
-												<th>MEDIDO</th>
+                                                <th>ICMP</th>
+												<th>TTL</th>
+												<th>MEDIDO (MS)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:00</td>
-												<td>00:01</td>
-												<td>50</td>
-											</tr>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:01</td>
-												<td>00:02</td>
-												<td>49</td>
-											</tr>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:02</td>
-												<td>00:03</td>
-												<td>50</td>
-											</tr>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:03</td>
-												<td>00:04</td>
-												<td>0</td>
-											</tr>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:04</td>
-												<td>00:05</td>
-												<td>0</td>
-											</tr>
-											<tr>
-												<td>10</td>
-												<td>perfil 1</td>
-												<td>1</td>
-												<td>00:05</td>
-												<td>00:06</td>
-												<td>50</td>
-											</tr>
+											<?php 
+											
+											require_once('dbconnect.php');
+											
+											if(isset($_GET['servico'])){
+												$servico = $_GET['servico'];
+											}else{
+												$servico = NULL;
+											}
+																						
+											if(isset($_GET['resultspvid'])){
+												$resultspvid = $_GET['resultspvid'];
+											}else{
+												$resultspvid = NULL;
+											}
+											
+											$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' ORDER BY idretorno_scripts_teste;";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$pvid_dispositivo = $row["pvid_dispositivo"];
+												$nome_perfil = $row["nome_perfil"];
+												$num_servico = $row["num_servico"];
+												$num_icmp = $row["num_icmp"];
+												$num_ttl = $row["num_ttl"];
+												$num_time = $row["num_time"];
+												
+												echo "<tr><td>".$pvid_dispositivo."</td><td>".$nome_perfil."</td><td>".$num_servico."</td><td>".$num_icmp."</td><td>".$num_ttl."</td><td>".$num_time."</td></tr>";
+											}?>	
                                         </tbody>
                                     </table>
                                 </div>
@@ -289,7 +301,7 @@ $email = $_SESSION["email"];
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Serviço de Ping - Dispositvo 10 - Serviço 1
+                                Serviço de Ping - Dispositvo <?php if(isset($_GET['resultspvid'])){ echo $_GET['resultspvid']; } else { echo "0"; } ?> - Serviço <?php if(isset($_GET['servico'])){ echo $_GET['servico']; } else { echo "0"; } ?>
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
@@ -321,25 +333,29 @@ $email = $_SESSION["email"];
 </body>
 </html>
 
+<?php
+
+if(isset($_GET['servico'])){
+	$servico = $_GET['servico'];
+}else{
+	$servico = NULL;
+}
+
+$connect = mysqli_connect("localhost", "root", "", "teste");
+$query = "SELECT * FROM retorno_scripts_teste WHERE num_servico = '$servico' ORDER BY idretorno_scripts_teste";
+$result = mysqli_query($connect, $query);
+$chart_data = '';
+while($row = mysqli_fetch_array($result))
+{
+	$chart_data .= "{ y: ".$row["num_icmp"].", a: ".$row["num_time"]."}, ";
+}
+$chart_data = substr($chart_data, 0, -2);
+?>
+
 <script>
 Morris.Line({
 	element : 'chart',
-	data : [
-	{ y: '00:00', a: 50 },
-    { y: '00:01', a: 49 },
-    { y: '00:02', a: 50 },
-    { y: '00:03', a: 0 },
-    { y: '00:04', a: 0 },
-    { y: '00:05', a: 50 },
-	{ y: '00:06', a: 51 },
-	{ y: '00:07', a: 55 },
-	{ y: '00:08', a: 60 },
-	{ y: '00:09', a: 55 },
-	{ y: '00:10', a: 53 },
-	{ y: '00:11', a: 49 },
-	{ y: '00:12', a: 100 },
-    { y: '00:13', a: 49 }
-	],
+	data : [ <?php echo $chart_data; ?>	],
 	xkey : 'y',
 	ykeys: ['a'],
 	labels : ['Valor medido (ms)'],
