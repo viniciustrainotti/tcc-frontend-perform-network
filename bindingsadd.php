@@ -143,7 +143,7 @@ switch ($selecao) {
 			
 			$rep_pvid = "rep_pvid=$dispositivo\n";
 			
-			$rep_servicos = "rep_pvid=$servico\n";
+			$rep_servicos = "rep_servicos=$servico\n";
 			
 			$rep_script = "rep_script=$nome_script[$i]\n";
 			
