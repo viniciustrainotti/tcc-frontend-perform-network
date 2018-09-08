@@ -178,7 +178,67 @@ $email = $_SESSION["email"];
 
 				<!-- /.row -->
 				<div class="row">
-					
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Escolha o Dispositivo vinculado para comparação da Tabela Route cadastrada.
+							</div>						
+							<div class="panel-body">
+							<form method="post" action="tabelaARPadd.php" enctype="multipart/form-data">
+								<p>Escolha o Dispositivo na lista para edição</p>
+								<div class="form-group">
+									<label>DISPOSITIVO</label>
+									<select class="form-control" name="pvid" id="pvid">
+									<?php
+									
+										require_once('dbconnect.php');
+										
+										$query = "SELECT pvid FROM dispositivos ORDER BY pvid";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$pvid = $row["pvid"];
+											
+											echo "<option>".$pvid."</option>";
+										}
+									?>
+									</select>
+								</div>
+								<p>Insira/Atualize a Tabela Route do dispositivo selecionado</p>
+								<div class="form-group" id="teste">
+									<label>Adicione o texto conforme IP (Espaço) MAC. Ex.: 192.168.1.1 30-99-35-9f-00-0b</label>
+									<textarea class="form-control" name="route" id="route" rows="5">
+									<?php
+									
+										require_once('dbconnect.php');
+										
+										$query = "SELECT arp_conteudo FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$arp_conteudo = $row["arp_conteudo"];
+		
+											echo $arp_conteudo;
+											
+										}
+									?>
+									</textarea>
+								</div>
+								<p>
+									<button type="submit" class="btn btn-primary" name="selecao" value="1">Inserir</button>
+									<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
+									<button type="submit" class="btn btn-danger" name="selecao" value="3">Comparar</button>
+									</p>
+							</form>
+							</div>
+                            <!-- /.panel-body -->
+							<div class="panel-footer">
+								Observações
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

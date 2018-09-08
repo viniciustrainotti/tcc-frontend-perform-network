@@ -2,6 +2,63 @@
 // Nas versões do PHP anteriores a 4.1.0, $HTTP_POST_FILES deve ser utilizado ao invés
 // de $_FILES.
 
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+
+        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+        }
+
+    }
+
+    return rmdir($dir);
+}	
+
+function copyr($source, $dest)
+{
+    // Check for symlinks
+    if (is_link($source)) {
+        return symlink(readlink($source), $dest);
+    }
+    
+    // Simple copy for a file
+    if (is_file($source)) {
+        return copy($source, $dest);
+    }
+
+    // Make destination directory
+    if (!is_dir($dest)) {
+        mkdir($dest);
+    }
+
+    // Loop through the folder
+    $dir = dir($source);
+    while (false !== $entry = $dir->read()) {
+        // Skip pointers
+        if ($entry == '.' || $entry == '..') {
+            continue;
+        }
+
+        // Deep copy directories
+        copyr("$source/$entry", "$dest/$entry");
+    }
+
+    // Clean up
+    $dir->close();
+    return true;
+}
+
 require("dbconnect_system.php");
 
 $nome_arquivo = basename($_FILES['logfile']['name']);
@@ -60,6 +117,7 @@ if(is_dir($diretoriofinal)){
 				
 				//echo "conte dispositivo" . count($arr) . "valor de i ". $i;
 				$destino_servicos = $destino . "home/pi/resultados/" . $arr[$i] . "/";
+				$copia_de_arquivo_bkp = $destino_servicos;
 				
 				$caminho = dir($destino_servicos);
 				
@@ -103,48 +161,87 @@ if(is_dir($diretoriofinal)){
 						
 						$arquivo = $destino_log;
 						
-						//echo "estou monstrando o arquivo de log do caminho " . $destino_log;
+						echo "estou monstrando o arquivo de log do caminho " . $destino_log;
+						
+						$sql_grupo_script = mysql_query("SELECT gruposcript FROM scripts WHERE nomescript = '$array_scripts[$k]';");
+						
+						while($row = mysql_fetch_assoc($sql_grupo_script)){
+						
+							$grupo_script = $row['gruposcript'];
+							
+						}
+						
+						//echo $grupo_script;
 						
 						//var_dump($arquivo);
 						
 						$lines = file($arquivo);
 
 						//var_dump($lines);
+													
+						switch ($grupo_script){
 						
-						foreach($lines as $linha){
-		
-							$linha = trim($linha);
-							$valor = explode(' ', $linha);
-							//var_dump($valor);
+							case "PING":
 							
-							if($valor[0] == '64'){
-								
-								//print_r($valor);
-								list($var, $icmp_seq) = explode("=",$valor[5]);
-								list($var, $ttl) = explode("=",$valor[6]);
-								list($var, $time) = explode("=",$valor[7]);
-								$resultado_array = 1;
-								
-								//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
-								
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
+								foreach($lines as $linha){
+						
+									//variação para scripts de PING
+									$linha = trim($linha);
+									$valor = explode(' ', $linha);
+									//var_dump($valor);
+									//ping
+									if($valor[0] == '64'){
+										
+										//print_r($valor);
+										list($var, $icmp_seq) = explode("=",$valor[5]);
+										list($var, $ttl) = explode("=",$valor[6]);
+										list($var, $time) = explode("=",$valor[7]);
+										$resultado_array = 1;
+										
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
+											
+										echo $sql . "\n";
 									
-								//echo $sql . "\n";
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+									
+									}else{
+									
+										$resultado_array = 0;
+									
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '0', '0', '0', '$resultado_array', NOW())";
+										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+									
+									}
+								}
+								
+								break;
+							
+							case "DNS":
+							
+								$linha_concatenada_dns = "";
+								
+								foreach($lines as $line){
+								
+									$linha_concatenada_dns .= $line . "\n";
+								
+								}
+								
+								echo $linha_concatenada_dns;
+								
+								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, conteudo_dns, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$linha_concatenada_dns', NOW())";
+											
+								echo $sql . "\n";
 							
 								$resultadoQuery = mysql_query($sql) or die(mysql_error());
 								
+								break;
 							
-							}else{
-							
-								$resultado_array = 0;
-							
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '0', '0', '0', '$resultado_array', NOW())";
-								//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
-								
-								$resultadoQuery = mysql_query($sql) or die(mysql_error());
-							
-							}
-							
+							default:
 						
 						}
 					
@@ -174,6 +271,22 @@ if(is_dir($diretoriofinal)){
 		echo "Possível ataque de upload de arquivo!\n";
 	}
 
+		
+	//mover arquivos para pasta de bkps
+	
+	echo $copia_de_arquivo_bkp;
+	
+	/*
+		O certo será para cada interação de leitura do script fazer o processo de copia e exclusão do diretorio
+		por enquanto essa função bastará para uma RASPBERRY
+	*/
+	
+	copyr($uploaddir . "home", $uploaddir . "bkp_home");
+	
+	$diretorioExcluir = $uploaddir . "home";
+			
+	deleteDirectory($diretorioExcluir);
+	
 	//echo 'Aqui está mais informações de debug:';
 	//print_r($_FILES);
 
@@ -275,48 +388,87 @@ if(is_dir($diretoriofinal)){
 						
 						$arquivo = $destino_log;
 						
-						//echo "estou monstrando o arquivo de log do caminho " . $destino_log;
+						echo "estou monstrando o arquivo de log do caminho " . $destino_log;
+						
+						$sql_grupo_script = mysql_query("SELECT gruposcript FROM scripts WHERE nomescript = '$array_scripts[$k]';");
+						
+						while($row = mysql_fetch_assoc($sql_grupo_script)){
+						
+							$grupo_script = $row['gruposcript'];
+							
+						}
+						
+						//echo $grupo_script;
 						
 						//var_dump($arquivo);
 						
 						$lines = file($arquivo);
 
 						//var_dump($lines);
+													
+						switch ($grupo_script){
 						
-						foreach($lines as $linha){
-		
-							$linha = trim($linha);
-							$valor = explode(' ', $linha);
-							var_dump($valor);
+							case "PING":
 							
-							if($valor[0] == '64'){
-								
-								//print_r($valor);
-								list($var, $icmp_seq) = explode("=",$valor[5]);
-								list($var, $ttl) = explode("=",$valor[6]);
-								list($var, $time) = explode("=",$valor[7]);
-								$resultado_array = 1;
-								
-								//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
-								
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]', '$icmp_seq', '$ttl', '$time', '$resultado_array')";
+								foreach($lines as $linha){
+						
+									//variação para scripts de PING
+									$linha = trim($linha);
+									$valor = explode(' ', $linha);
+									//var_dump($valor);
+									//ping
+									if($valor[0] == '64'){
+										
+										//print_r($valor);
+										list($var, $icmp_seq) = explode("=",$valor[5]);
+										list($var, $ttl) = explode("=",$valor[6]);
+										list($var, $time) = explode("=",$valor[7]);
+										$resultado_array = 1;
+										
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
+											
+										echo $sql . "\n";
 									
-								//echo $sql . "\n";
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+									
+									}else{
+									
+										$resultado_array = 0;
+									
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '0', '0', '0', '$resultado_array', NOW())";
+										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+									
+									}
+								}
+								
+								break;
+							
+							case "DNS":
+							
+								$linha_concatenada_dns = "";
+								
+								foreach($lines as $line){
+								
+									$linha_concatenada_dns .= $line . "\n";
+								
+								}
+								
+								echo $linha_concatenada_dns;
+								
+								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, conteudo_dns, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$linha_concatenada_dns', NOW())";
+											
+								echo $sql . "\n";
 							
 								$resultadoQuery = mysql_query($sql) or die(mysql_error());
 								
+								break;
 							
-							}else{
-							
-								$resultado_array = 0;
-							
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]', '0', '0', '0', '$resultado_array')";
-								//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
-								
-								$resultadoQuery = mysql_query($sql) or die(mysql_error());
-							
-							}
-							
+							default:
 						
 						}
 					
@@ -347,6 +499,19 @@ if(is_dir($diretoriofinal)){
 		
 	}
 
+	echo $copia_de_arquivo_bkp;
+	
+	/*
+		O certo será para cada interação de leitura do script fazer o processo de copia e exclusão do diretorio
+		por enquanto essa função bastará para uma RASPBERRY
+	*/
+	
+	copyr($uploaddir . "home", $uploaddir . "bkp_home");
+	
+	$diretorioExcluir = $uploaddir . "home";
+			
+	deleteDirectory($diretorioExcluir);
+	
 	//echo 'Aqui está mais informações de debug:';
 	//print_r($_FILES);
 
