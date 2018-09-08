@@ -127,7 +127,7 @@ if(is_dir($diretoriofinal)){
 								
 								//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
 								
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]', '$icmp_seq', '$ttl', '$time', '$resultado_array')";
+								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
 									
 								//echo $sql . "\n";
 							
@@ -138,7 +138,7 @@ if(is_dir($diretoriofinal)){
 							
 								$resultado_array = 0;
 							
-								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]', '0', '0', '0', '$resultado_array')";
+								$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '0', '0', '0', '$resultado_array', NOW())";
 								//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
 								
 								$resultadoQuery = mysql_query($sql) or die(mysql_error());
