@@ -54,8 +54,8 @@ $email = $_SESSION["email"];
     <![endif]-->
 <script>
  $(document).ready(function(){
-		$('#grupo').change(function(){
-			$('#teste').load('profileselect.php?grupo='+$('#grupo').val());
+		$('#pvid').change(function(){
+			$('#teste').load('routeselect.php?pvid='+$('#pvid').val());
 			//var r = $('#grupo').val();
 			//alert(r);
 		});
@@ -184,7 +184,7 @@ $email = $_SESSION["email"];
 								Escolha o Dispositivo vinculado para comparação da Tabela Route cadastrada.
 							</div>						
 							<div class="panel-body">
-							<form method="post" action="tabelaARPadd.php" enctype="multipart/form-data">
+							<form method="post" action="tabelaROUTEadd.php" enctype="multipart/form-data">
 								<p>Escolha o Dispositivo na lista para edição</p>
 								<div class="form-group">
 									<label>DISPOSITIVO</label>
@@ -207,20 +207,20 @@ $email = $_SESSION["email"];
 								</div>
 								<p>Insira/Atualize a Tabela Route do dispositivo selecionado</p>
 								<div class="form-group" id="teste">
-									<label>Adicione o texto conforme IP (Espaço) MAC. Ex.: 192.168.1.1 30-99-35-9f-00-0b</label>
+									<label>Adicione ou Edite o texto conforme Tabela de Roteamento</label>
 									<textarea class="form-control" name="route" id="route" rows="5">
 									<?php
 									
 										require_once('dbconnect.php');
 										
-										$query = "SELECT arp_conteudo FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
+										$query = "SELECT route_conteudo FROM route WHERE pvid = '$pvid' ORDER BY idroute";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
-											$arp_conteudo = $row["arp_conteudo"];
+											$route_conteudo = $row["route_conteudo"];
 		
-											echo $arp_conteudo;
+											echo $route_conteudo;
 											
 										}
 									?>
