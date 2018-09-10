@@ -243,10 +243,10 @@ $email = $_SESSION["email"];
 					<div class="col-lg-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Prototipo de grafico do resultado de um serviço PING
+								Tabela resultado serviço PING
 							</div>                            
 							<div class="panel-body">
-                                <div class="table-responsive">
+                                <div style="overflow: auto; width: auto; height: 344px">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
@@ -312,6 +312,53 @@ $email = $_SESSION["email"];
                         <!-- /.panel -->
                     </div>
                     <!-- /.col-lg-2 -->
+				</div>
+				<!-- col-lg-3 -->
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+                            <div class="panel-heading">
+                                Serviço DNS Resultado
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="form-group">
+									<label>Validação do retorno do serviço</label>
+									<p class="form-control-static">
+									<?php 
+										
+										require_once('dbconnect.php');
+										
+										if(isset($_GET['servico'])){
+											$servico = $_GET['servico'];
+										}else{
+											$servico = NULL;
+										}
+																					
+										if(isset($_GET['resultspvid'])){
+											$resultspvid = $_GET['resultspvid'];
+										}else{
+											$resultspvid = NULL;
+										}
+										
+										$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' ORDER BY idretorno_scripts_teste;";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$conteudo_dns = $row["conteudo_dns"];
+											
+											echo nl2br($conteudo_dns);
+										}
+										
+										
+										?>	
+									</p>
+								</div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+					</div>
 				</div>
 			</div>
 		</div>
