@@ -267,7 +267,7 @@ $email = $_SESSION["email"];
 											$conteudo = $row["conteudo"];
 											
 											
-											echo "<tr><td>".$nomescript."</td><td>".$gruposcript."</td><td>".$conteudo."</td></tr>";
+											echo "<tr><td>".$nomescript."</td><td>".$gruposcript."</td><td>".nl2br($conteudo)."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
