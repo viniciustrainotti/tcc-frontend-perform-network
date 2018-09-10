@@ -243,7 +243,7 @@ $email = $_SESSION["email"];
 								Lista de Scripts
 							</div>                            
 							<div class="panel-body">
-                                <div style="overflow: auto; width: auto; height: 344px">
+                                <div style="overflow: auto; width: auto; height: 300px">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
