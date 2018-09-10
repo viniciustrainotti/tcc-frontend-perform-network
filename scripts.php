@@ -237,6 +237,45 @@ $email = $_SESSION["email"];
 						</div>
 					</div>
 					<!-- /.col-lg-1 -->
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Lista de Scripts
+							</div>                            
+							<div class="panel-body">
+                                <div style="overflow: auto; width: auto; height: 344px">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>SCRIPT</th>
+                                                <th>GRUPO</th>
+												<th>CONTEUDO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										<?php 
+										
+										require_once('dbconnect.php');
+
+										$query = "SELECT nomescript, gruposcript, conteudo FROM scripts ORDER BY idscripts";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$nomescript = $row["nomescript"];
+											$gruposcript = $row["gruposcript"];
+											$conteudo = $row["conteudo"];
+											
+											
+											echo "<tr><td>".$nomescript."</td><td>".$gruposcript."</td><td>".$conteudo."</td></tr>";
+										}?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
