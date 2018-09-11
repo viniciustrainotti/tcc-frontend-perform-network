@@ -240,6 +240,115 @@ if(is_dir($diretoriofinal)){
 								$resultadoQuery = mysql_query($sql) or die(mysql_error());
 								
 								break;
+								
+							case "IPERF":							
+								
+								foreach($lines as $line){
+								
+									$line = trim($line);
+									$valor = explode(' ', $line);
+									//var_dump($valor);
+									
+									if($valor[2] == '4]' && $valor[3] == ''){
+										
+										//print_r($valor);
+										list($var, $second) = explode("-",$valor[5]);
+										
+										//echo $second . "teste";
+										//echo strlen($valor[5]);
+										
+										if(strlen($valor[5]) == 10){
+										
+											if($valor[31] == 'sender' || $valor[32] == 'receiver'){
+											
+											//echo "entrou no sender ou receiver";
+											
+												if($valor[31] == 'sender'){
+												
+													//echo "entrou no sender";
+													
+													$transfer = $valor[10];
+												
+													$bandwidth = $valor[13];
+													
+													$retr = $valor[18];
+													
+													$cwnd = $valor[31];
+													
+													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+														
+													//echo $sql . "\n";
+												
+													$resultadoQuery = mysql_query($sql) or die(mysql_error());
+												
+												}else{
+												
+													//echo "entrou no receiver";
+													
+													$transfer = $valor[10];
+												
+													$bandwidth = $valor[13];
+													
+													$retr = 0;
+													
+													$cwnd = $valor[32];
+													
+													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+														
+													//echo $sql . "\n";
+												
+													$resultadoQuery = mysql_query($sql) or die(mysql_error());
+												
+												}
+												
+											}else{
+											
+												//echo "entrou no 10";
+												 
+												$transfer = $valor[9];
+												
+												$bandwidth = $valor[12];
+												
+												$retr = $valor[17];
+												
+												$cwnd = $valor[20];
+												
+												$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+													
+												//echo $sql . "\n";
+											
+												$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											}
+										
+										}else{
+										
+											//echo "entrou no 9";
+											
+											$transfer = $valor[10];
+										
+											$bandwidth = $valor[13];
+											
+											$retr = $valor[18];
+											
+											$cwnd = $valor[21];
+											
+											$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+												
+											//echo $sql . "\n";
+										
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+										}
+										
+									}else{
+									
+										//echo "leu qualquer outra coisa" . $line;
+									
+									}
+								}
+								
+								break;	
 							
 							default:
 						
@@ -467,6 +576,115 @@ if(is_dir($diretoriofinal)){
 								$resultadoQuery = mysql_query($sql) or die(mysql_error());
 								
 								break;
+								
+							case "IPERF":							
+								
+								foreach($lines as $line){
+								
+									$line = trim($line);
+									$valor = explode(' ', $line);
+									//var_dump($valor);
+									
+									if($valor[2] == '4]' && $valor[3] == ''){
+										
+										//print_r($valor);
+										list($var, $second) = explode("-",$valor[5]);
+										
+										//echo $second . "teste";
+										//echo strlen($valor[5]);
+										
+										if(strlen($valor[5]) == 10){
+										
+											if($valor[31] == 'sender' || $valor[32] == 'receiver'){
+											
+											//echo "entrou no sender ou receiver";
+											
+												if($valor[31] == 'sender'){
+												
+													//echo "entrou no sender";
+													
+													$transfer = $valor[10];
+												
+													$bandwidth = $valor[13];
+													
+													$retr = $valor[18];
+													
+													$cwnd = $valor[31];
+													
+													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+														
+													//echo $sql . "\n";
+												
+													$resultadoQuery = mysql_query($sql) or die(mysql_error());
+												
+												}else{
+												
+													//echo "entrou no receiver";
+													
+													$transfer = $valor[10];
+												
+													$bandwidth = $valor[13];
+													
+													$retr = 0;
+													
+													$cwnd = $valor[32];
+													
+													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+														
+													//echo $sql . "\n";
+												
+													$resultadoQuery = mysql_query($sql) or die(mysql_error());
+												
+												}
+												
+											}else{
+											
+												//echo "entrou no 10";
+												 
+												$transfer = $valor[9];
+												
+												$bandwidth = $valor[12];
+												
+												$retr = $valor[17];
+												
+												$cwnd = $valor[20];
+												
+												$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+													
+												//echo $sql . "\n";
+											
+												$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											}
+										
+										}else{
+										
+											//echo "entrou no 9";
+											
+											$transfer = $valor[10];
+										
+											$bandwidth = $valor[13];
+											
+											$retr = $valor[18];
+											
+											$cwnd = $valor[21];
+											
+											$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
+												
+											//echo $sql . "\n";
+										
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+										}
+										
+									}else{
+									
+										//echo "leu qualquer outra coisa" . $line;
+									
+									}
+								}
+								
+								break;	
 							
 							default:
 						
