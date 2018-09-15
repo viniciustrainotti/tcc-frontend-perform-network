@@ -360,6 +360,71 @@ $email = $_SESSION["email"];
                         </div>
 					</div>
 				</div>
+				
+				<div class="row">
+					<div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Serviço de IPERF - Dispositvo <?php if(isset($_GET['resultspvid'])){ echo $_GET['resultspvid']; } else { echo "0"; } ?> - Serviço <?php if(isset($_GET['servico'])){ echo $_GET['servico']; } else { echo "0"; } ?>
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div id="chartiperf"></div>
+								<div class="form-group">
+									<?php 
+																			
+										require_once('dbconnect.php');
+										
+										if(isset($_GET['servico'])){
+											$servico = $_GET['servico'];
+										}else{
+											$servico = NULL;
+										}
+																					
+										if(isset($_GET['resultspvid'])){
+											$resultspvid = $_GET['resultspvid'];
+										}else{
+											$resultspvid = NULL;
+										}
+										
+										$query = "SELECT * FROM retorno_scripts_iperf WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' AND cwnd = 'sender' ORDER BY idretorno_scripts_iperf;";
+										$result = $mysqli->query($query);
+										
+										//echo $query;
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$retornoBandwidthSender = $row["bandwidth"];
+											$transferSender = $row["transfer"];
+											
+											//echo nl2br($conteudo_dns);
+										}
+										
+										$query = "SELECT * FROM retorno_scripts_iperf WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' AND cwnd = 'receiver' ORDER BY idretorno_scripts_iperf;";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$retornoBandwidthReceiver = $row["bandwidth"];
+											$transferReceiver = $row["transfer"];
+											
+											//echo nl2br($retornoBandwidthReceiver);
+										}
+									?>	
+									</br>
+									<div class="col-lg-6">
+										<label>Sender: Bandwidth <?php echo $retornoBandwidthSender ?> MBits/sec Transfer <?php echo $transferSender ?> MBytes</label>
+									</div>
+									<div class="col-lg-6">
+										<label>Receiver: Bandwidth <?php echo $retornoBandwidthReceiver ?> MBits/sec Transfer <?php echo $transferReceiver ?> MBytes</label>
+									</div>
+								</div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+				</div>
 			</div>
 		</div>
 
@@ -401,6 +466,34 @@ while($row = mysqli_fetch_array($result))
 $chart_data = substr($chart_data, 0, -2);
 ?>
 
+<?php
+
+if(isset($_GET['servico'])){
+	$servico = $_GET['servico'];
+}else{
+	$servico = NULL;
+}
+
+require_once('dbconnect.php');
+
+$connect = mysqli_connect($host, $user, $pass, $db_name);
+$query = "SELECT * FROM retorno_scripts_iperf WHERE num_servico = '$servico' AND pvid_dispositivo = '$resultspvid' AND cwnd <> 'sender' AND cwnd <> 'receiver' ORDER BY idretorno_scripts_iperf";
+$result = mysqli_query($connect, $query);
+$chart_data_iperf = '';
+while($row = mysqli_fetch_array($result))
+{
+	$menorValor[] = floatval(trim($row["bandwidth"]));
+	//$chart_data .= "{ y: ".$row["second"].", bandwidth: ".$row["bandwidth"].", transfer: ".$row["transfer"].", cwnd: ".$row["cwnd"]."}, ";
+	$chart_data_iperf .= "{ second: ".$row["second"].", bandwidth: ".$row["bandwidth"]."}, ";
+	
+}
+$chart_data_iperf = substr($chart_data_iperf, 0, -2);
+
+//echo(min($menorValor));
+$menorValorParaGraficoIperf = (min($menorValor)) - 1;
+//echo $menorValorParaGraficoIperf;
+?>
+
 <script>
 Morris.Line({
 	element : 'chart',
@@ -410,6 +503,34 @@ Morris.Line({
 	labels : ['Valor medido (ms)'],
 	parseTime: false,
     hideHover: true
+});
+</script>
+
+<script>
+Morris.Line({
+	element : 'chartiperf',
+	//formatY = function (y) {
+    //        return '$'+y;
+    //    },
+    //formatX = function (x) {
+    //        return 'bla'+x.src.y;
+    //    },
+	data : [ <?php echo $chart_data_iperf; ?>	],
+	xkey : 'second',
+	ykeys: ['bandwidth'],
+	labels : ['Bandwidth (Mbits/sec)'],
+	ymax : 'auto',
+	ymin : <?php echo "$menorValorParaGraficoIperf";?>,
+	numLines: '8',
+	axes: 'x',
+	//xLabels: 'second',
+	//dateFormat: function (x) { return x.toString() + ' s'; },
+	//yLabelFormat:formatY,
+    //xLabelFormat: formatX,
+	smooth: false,
+	parseTime: false,
+    hideHover: true,
+	resize: true
 });
 </script>
 
