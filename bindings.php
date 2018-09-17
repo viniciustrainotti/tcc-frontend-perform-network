@@ -284,7 +284,7 @@ $email = $_SESSION["email"];
 								Lista de Serviços vinculados ao Perfil e ao Dispositivo
 							</div>                            
 							<div class="panel-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
