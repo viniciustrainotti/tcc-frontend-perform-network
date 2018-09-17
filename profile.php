@@ -61,7 +61,15 @@ $email = $_SESSION["email"];
 		});
 	});
 </script>
-	
+<script>
+ $(document).ready(function(){
+		$('#perfil').change(function(){
+			$('#teste1').load('profileselectscript.php?perfil='+$('#perfil').val());
+			//var r = $('#grupo').val();
+			//alert(r);
+		});
+	});
+</script>	
 </head>
 <body>
 
@@ -142,7 +150,15 @@ $email = $_SESSION["email"];
 						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
 					</li>
 					<li>
-						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
+						<a href="#" class="active"><i class="fa fa-play fa-fw"></i> Executar<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="run.php">Liberar Serviços</a>
+							</li>
+							<li>
+								<a href="run_finalizados.php">Finalizados</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="results.php" class="active"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
@@ -188,7 +204,7 @@ $email = $_SESSION["email"];
 								<p>Escolha o Perfil na lista para edição</p>
 								<div class="form-group">
 									<label>PERFIL</label>
-									<select class="form-control" name="perfil">
+									<select class="form-control" name="perfil" id="perfil">
 									<?php
 									
 										require_once('dbconnect.php');
@@ -306,9 +322,9 @@ $email = $_SESSION["email"];
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								Lista de Perfis vinculados à scripts
-							</div>                            
+							</div>
 							<div class="panel-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>

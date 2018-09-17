@@ -141,7 +141,15 @@ $email = $_SESSION["email"];
 						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
 					</li>
 					<li>
-						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
+						<a href="#" class="active"><i class="fa fa-play fa-fw"></i> Executar<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="run.php">Liberar Serviços</a>
+							</li>
+							<li>
+								<a href="run_finalizados.php">Finalizados</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="results.php" class="active"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>

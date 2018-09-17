@@ -133,7 +133,15 @@ $email = $_SESSION["email"];
 						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
 					</li>
 					<li>
-						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
+						<a href="#" class="active"><i class="fa fa-play fa-fw"></i> Executar<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="run.php">Liberar Serviços</a>
+							</li>
+							<li>
+								<a href="run_finalizados.php">Finalizados</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="results.php" class="active"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
@@ -163,7 +171,7 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Executar</h1>
+						<h1 class="page-header">Liberar Serviços</h1>
 					</div>
 				</div>
 
@@ -175,7 +183,7 @@ $email = $_SESSION["email"];
 								Clique emcima do serviço para habilitar a execução conforme o perfil e dispositivo
 							</div>                            
 							<div class="panel-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
                                     <table class="table table-striped table-bordered table-hover" id="data">
                                         <thead>
                                             <tr>
@@ -193,7 +201,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid ORDER BY idservicos";
+										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid WHERE servicos.download = 'N' ORDER BY idservicos";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){

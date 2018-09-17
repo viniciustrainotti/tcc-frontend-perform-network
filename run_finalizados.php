@@ -171,7 +171,7 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Scripts</h1>
+						<h1 class="page-header">Serviços Finalizados</h1>
 					</div>
 				</div>
 
@@ -180,84 +180,20 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Escolha o Script para edição/exclusão ou adicione novos
-							</div>						
-							<div class="panel-body">
-							<form method="post" action="uploadarq.php" enctype="multipart/form-data">
-								<p>Escolha o Script na lista para edição</p>
-								<div class="form-group">
-									<label>SCRIPT</label>
-									<select class="form-control" name="script">
-									<?php
-									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nomescript = $row["nomescript"];
-											
-											echo "<option>".$nomescript."</option>";
-										}
-									?>
-									</select>
-								</div>
-									<p>Escolhe o grupo do script respectivamente</p>
-									<div class="form-group">
-										<label>GRUPO</label>
-										<select class="form-control" name="grupo">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											$query = "SELECT grupos FROM scripts_grupos";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$gruposcript = $row["grupos"];
-												
-												echo "<option>".$gruposcript."</option>";
-											}
-										?>
-										</select>
-									</div>
-								
-									<!-- upload of a single file -->
-									<p>
-										<label>Selecione o Script para adicionar conforme o Grupo acima </label><br/>
-										<input type="file" name="userfile"/>
-									</p>
-									<p>
-										<button type="submit" class="btn btn-primary" name="selecao" value="1">Upload</button>
-										<button type="submit" class="btn btn-success" name="selecao" value="2">Download</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="3">Delete</button>
-										<!-- <input type="submit"/> -->
-									</p>
-								</form>
-							</div>
-                            <!-- /.panel-body -->
-							<div class="panel-footer">
-								Observações
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-1 -->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Lista de Scripts
+								Clique emcima do serviço para habilitar a execução conforme o perfil e dispositivo
 							</div>                            
 							<div class="panel-body">
-                                <div style="overflow: auto; width: auto; height: 300px">
-                                    <table class="table table-striped table-bordered table-hover">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
+                                    <table class="table table-striped table-bordered table-hover" id="data">
                                         <thead>
                                             <tr>
-                                                <th>SCRIPT</th>
-                                                <th>GRUPO</th>
-												<th>CONTEUDO</th>
+                                                <th>PVID</th>
+                                                <th>PERFIL</th>
+                                                <th>SERVIÇO</th>
+												<th>DOWNLOAD</th>
+												<th>STATUS</th>
+												<th>THREAD</th>
+												<th>HABILITADO</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -265,25 +201,56 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT nomescript, gruposcript, conteudo FROM scripts ORDER BY idscripts";
+										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid WHERE servicos.download = 'S' ORDER BY idservicos";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
-											$nomescript = $row["nomescript"];
-											$gruposcript = $row["gruposcript"];
-											$conteudo = $row["conteudo"];
+											$pvid = $row["pvid"];
+											$user = $row["perfil"];
+											$senha = $row["nome_servico"];
+											$nome = $row["download"];
+											if($nome == 'N'){
+												$nome = "NÃO REALIZADO";
+											}else{
+												$nome = "REALIZADO";
+											}
+											$conectado = $row["conectado"];
+											if($conectado == 0){
+												$conectado = "OFFLINE";
+												$color = "red";
+											}else{
+												$conectado = "ONLINE";
+												$color = "green";
+											}
+											$servicos = $row["finalizado"];
+											if($servicos == 'N'){
+												$servicos = "NÃO FINALIZADO";
+											}else{
+												$servicos = "FINALIZADO";
+											}
+											$servico_disp = $row["servico_disp"];
+											if($servico_disp == 0){
+												$servico_disp = "NÃO HABILITADO";
+											}else{
+												$servico_disp = "HABILITADO";
+											}
 											
-											
-											echo "<tr><td>".$nomescript."</td><td>".$gruposcript."</td><td>".nl2br($conteudo)."</td></tr>";
+											echo "<tr id='somerow'><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servicos."</td><td>".$servico_disp."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
                                 </div>
                                 <!-- /.table-responsive -->
                             </div>
+                            <!-- /.panel-body -->
+							<div class="panel-footer">
+								Observações: A cada 10 segundos é atualizado automaticamente a página.
+							</div>
 						</div>
 					</div>
+					<!-- /.col-lg-1 -->
+					
 				</div>
 			</div>
 		</div>
@@ -304,7 +271,31 @@ $email = $_SESSION["email"];
 
 </body>
 </html>
-
-
+<script>
+document.querySelector("#data tbody").addEventListener("click", function(event) {
+  var td = event.target;
+  while (td !== this && !td.matches("td")) {
+      td = td.parentNode;
+  }
+  if (td === this) {
+      console.log("No table cell found");
+  } else {
+      console.log(td.innerHTML);
+	  // enviar numero do servico para liberar 
+	  var data_rows = td.innerHTML;
+            //build form HTML (hide keeps the form from being visible)
+            $form = $('<form/>').attr({method: 'POST', action: 'excluiserv.php'}).hide();
+            //build textarea HTML
+            $textarea = $('<textarea/>').attr({name: 'data_rows'}).val(data_rows);
+            //add textarea to form
+            $form.append($textarea);
+            //add form to the document body
+            $('body').append($form);
+            //submit the form
+            $form.submit();
+  }
+});
+</script>
+<meta HTTP-EQUIV='refresh' CONTENT='10;URL=run_finalizados.php'>
 
 
