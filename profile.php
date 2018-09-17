@@ -62,14 +62,23 @@ $email = $_SESSION["email"];
 	});
 </script>
 <script>
- $(document).ready(function(){
-		$('#perfil').change(function(){
-			$('#teste1').load('profileselectscript.php?perfil='+$('#perfil').val());
-			//var r = $('#grupo').val();
-			//alert(r);
+$(document).ready(function(){
+	$('#perfil').change(function(){
+		
+		var perfil = $(this).val();
+		
+		$.ajax({
+			url:"profileselectscript.php",
+			method:"POST",
+			data:{perfil:perfil},
+			success:function(data){
+				$('#show_product').html(data);
+			}
 		});
+	
 	});
-</script>	
+});
+</script>
 </head>
 <body>
 
@@ -318,7 +327,7 @@ $email = $_SESSION["email"];
 					</div>
 					<!-- /.col-lg-2-->
 					<!-- col-lg-3-->
-					<div class="col-lg-12">
+					<div class="col-lg-12" id="show_product">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								Lista de Perfis vinculados à scripts
