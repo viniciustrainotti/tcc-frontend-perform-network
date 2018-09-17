@@ -63,17 +63,30 @@ switch ($selecao) {
 		
 	case '3':
 	
-		$conteudo_teste = "$".$parametro_variavel." = ".$parametro_valor.";";
+		$row_sequencia = $parametro_variavel;
+		
+		$sql1 = mysql_query("SELECT parametro_variavel FROM parametros WHERE idparametros = '$parametro_variavel'");		
+		
+		while($row = mysql_fetch_assoc($sql1))
+		{
+			$parametro_variavel = $row['parametro_variavel'];
+		}
+		
+		$conteudo_teste = $parametro_variavel."=".$parametro_valor.";";
 	
-		$sql = mysql_query("UPDATE parametros SET parametro_valor = '$parametro_valor', conteudo = '$conteudo_teste' WHERE parametro_variavel = '$parametro_variavel';") or die(mysql_error());
+		$sql = mysql_query("UPDATE parametros SET parametro_valor = '$parametro_valor', conteudo = '$conteudo_teste' WHERE idparametros = '$row_sequencia';") or die(mysql_error());
 
+		echo $conteudo_teste;
+		echo $parametro_variavel;
+		echo $parametro_valor;
+		
 		if ($sql == TRUE) {
 			echo "<center>Parametro Atualizado com Sucesso!</center>";
 			
-			echo "<script>loginsucessfully()</script>";
+			//echo "<script>loginsucessfully()</script>";
 		} else {
 			echo "<center>Não foi possível atualizar o Parametro</center>";
-			echo "<script>loginfailed()</script>";
+			//echo "<script>loginfailed()</script>";
 		}
 
         break;

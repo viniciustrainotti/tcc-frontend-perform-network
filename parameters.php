@@ -197,7 +197,7 @@ $email = $_SESSION["email"];
 								<form role="form" method="post" action="parametroadd.php">
                                     <div class="col-lg-6">
 										<div class="form-group">
-											<label>Informe o nome do novo Parâmetro ou Digite o nome para Atualização</label>
+											<label>Informe o novo Parâmetro ou Digite o numero para Atualização</label>
 											<input class="form-control" name="parametro_variavel" placeholder="Por exemplo: T">
 										</div>
 									</div>
@@ -225,7 +225,7 @@ $email = $_SESSION["email"];
 								Lista de Parâmetros adicionados
 							</div>                            
 							<div class="panel-body">
-                                <div class="table-responsive">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
                                     <table class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
