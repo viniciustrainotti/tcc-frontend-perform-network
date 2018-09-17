@@ -240,28 +240,55 @@ $email = $_SESSION["email"];
 						</div>
 					</div>
 					<!-- /.col-lg-1 -->
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Serviço de Ping - Dispositivo 10 - Serviço 1
+                                Visão Geral dos Dispositivos em Relação aos seus Serviços e Scripts
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
-                                <div id="chart"></div>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                    </div>
-                    <!-- /.col-lg-2 -->
-					<div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Serviço de Ping - Dispositivo 10 - Serviço 2
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div id="chart2"></div>
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>DISPOSITIVO</th>
+                                                <th>SERVICO</th>
+												<th>DOWNLOAD</th>
+												<th>PERFIL</th>
+												<th>SCRIPT</th>
+												<th>PARAMETRO</th>
+												
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										<?php 
+										
+										require_once('dbconnect.php');
+
+										$query = "SELECT dispositivo, nome_servico, download, nome_perfil, nome_script, nome_parametro FROM perfil_script_parametro INNER JOIN servicos ON perfil_script_parametro.nome_perfil = servicos.perfil";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$dispositivo = $row["dispositivo"];
+											$nome_servico = $row["nome_servico"];
+											$download = $row["download"];
+											$download = $row["download"];
+											if($download == 'N'){
+												$download = "NÃO REALIZADO";
+											}else{
+												$download = "REALIZADO";
+											}
+											$nome_perfil = $row["nome_perfil"];
+											$nome_script = $row["nome_script"];
+											$nome_parametro = $row["nome_parametro"];
+											
+											echo "<tr><td>".$dispositivo."</td><td>".$nome_servico."</td><td>".$download."</td><td>".$nome_perfil."</td><td>".$nome_script."</td><td>".$nome_parametro."</td></tr>";
+										}?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
                             </div>
                             <!-- /.panel-body -->
                         </div>
@@ -303,61 +330,8 @@ while($row = $result->fetch_assoc()){
 $query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
 $result1 = $mysqli->query($query1);
 
-echo "<meta HTTP-EQUIV='refresh' CONTENT='30;URL=index.php'>";
+echo "<meta HTTP-EQUIV='refresh' CONTENT='10;URL=index.php'>";
 ?>
-
-<script>
-Morris.Line({
-	element : 'chart',
-	data : [
-	{ y: '00:00', a: 50 },
-    { y: '00:01', a: 49 },
-    { y: '00:02', a: 50 },
-    { y: '00:03', a: 0 },
-    { y: '00:04', a: 0 },
-    { y: '00:05', a: 50 },
-	{ y: '00:06', a: 51 },
-	{ y: '00:07', a: 55 },
-	{ y: '00:08', a: 60 },
-	{ y: '00:09', a: 55 },
-	{ y: '00:10', a: 53 },
-	{ y: '00:11', a: 49 },
-	{ y: '00:12', a: 100 },
-    { y: '00:13', a: 49 }
-	],
-	xkey : 'y',
-	ykeys: ['a'],
-	labels : ['Valor medido (ms)'],
-	parseTime: false,
-    hideHover: true
-});
-</script>
-<script>
-Morris.Line({
-	element : 'chart2',
-	data : [
-	{ y: '00:00', a: 20 },
-    { y: '00:01', a: 20 },
-    { y: '00:02', a: 20 },
-    { y: '00:03', a: 22 },
-    { y: '00:04', a: 22 },
-    { y: '00:05', a: 20 },
-	{ y: '00:06', a: 21 },
-	{ y: '00:07', a: 20 },
-	{ y: '00:08', a: 20 },
-	{ y: '00:09', a: 20 },
-	{ y: '00:10', a: 21 },
-	{ y: '00:11', a: 22 },
-	{ y: '00:12', a: 23 },
-    { y: '00:13', a: 21 }
-	],
-	xkey : 'y',
-	ykeys: ['a'],
-	labels : ['Valor medido (ms)'],
-	parseTime: false,
-    hideHover: true
-});
-</script>
 
 
 
