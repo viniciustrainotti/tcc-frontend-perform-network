@@ -222,7 +222,7 @@ $email = $_SESSION["email"];
 												require_once('dbconnect.php');
 												
 												//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
-												$query = "SELECT num_servico FROM retorno_scripts_teste WHERE pvid_dispositivo = '10' GROUP BY num_servico";
+												$query = "SELECT num_servico FROM retorno_scripts_teste WHERE pvid_dispositivo = '10' GROUP BY num_servico UNION SELECT num_servico FROM teste.retorno_scripts_iperf WHERE pvid_dispositivo = '10' GROUP BY num_servico";
 												$result = $mysqli->query($query);
 												
 												while($row = $result->fetch_assoc()){
