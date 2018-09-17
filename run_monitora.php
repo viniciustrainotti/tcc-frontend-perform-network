@@ -186,6 +186,7 @@ $email = $_SESSION["email"];
 							Escolha o Dispositivo e o Serviço de Monitoramento
 						</div>                            
 						<div class="panel-body">
+						<form method="" action="" enctype="multipart/form-data">
 							<p>Escolha o Dispositivo</p>
 							<div class="form-group">
 								<label>DISPOSITIVO</label>
@@ -210,21 +211,7 @@ $email = $_SESSION["email"];
 							<div class="form-group">
 								<label>SERVIÇO</label>
 								<select class="form-control" name="servico" id="servico">
-								<?php
-								
-									require_once('dbconnect.php');
-									
-									//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-									$query = "SELECT grupos FROM scripts_grupos";
-									$result = $mysqli->query($query);
-									
-									while($row = $result->fetch_assoc()){
-										$data[] = $row;
-										$gruposcript = $row["grupos"];
-										
-										echo "<option value=".$gruposcript.">".$gruposcript."</option>";
-									}
-								?>
+									<option>99</option>
 								</select>
 							</div>
 						</div>
@@ -233,8 +220,9 @@ $email = $_SESSION["email"];
 							Observações: A cada 3 segundos é atualizado automaticamente a página.
 						</div>
 					</div>
-					<form method="post" action="liballserv.php">
-						<button type="submit" class="btn btn-primary">Monitorar</button>
+					<p>
+						<button type="submit" class="btn btn-primary" name="selecao" value="1">Monitorar</button>
+					</p>
 					</form>
 				</div>
 				<!-- /.col-lg-1 -->
@@ -278,6 +266,8 @@ if(isset($_GET['servico'])){
 	$servico = NULL;
 }
 
+//echo $servico;
+
 require_once('dbconnect.php');
 
 $connect = mysqli_connect($host, $user, $pass, $db_name);
@@ -302,7 +292,7 @@ Morris.Line({
     hideHover: true
 });
 </script>
-
-<meta HTTP-EQUIV='refresh' CONTENT='3;URL=run_monitora.php'>
+<!-- utilizado somente content pra nao perder o get -->
+<meta HTTP-EQUIV='refresh' CONTENT='3'>
 
 
