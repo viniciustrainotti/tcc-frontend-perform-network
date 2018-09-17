@@ -167,6 +167,9 @@ $(document).ready(function(){
 							<li>
 								<a href="run_finalizados.php">Finalizados</a>
 							</li>
+							<li>
+								<a href="run_monitora.php">Monitoramento</a>
+							</li>
 						</ul>
 					</li>
 					<li>

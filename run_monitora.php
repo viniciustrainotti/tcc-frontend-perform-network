@@ -113,7 +113,6 @@ $email = $_SESSION["email"];
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
 						</ul>
-						<!-- /.nav-second-level -->
 					</li>
 					<li>
 						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
@@ -170,48 +169,99 @@ $email = $_SESSION["email"];
 	</nav>
 
 	<!-- Page Content -->
-		<div id="page-wrapper">
-			<div class="container-fluid">
+	<div id="page-wrapper">
+		<div class="container-fluid">
 
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Dispositivos</h1>
-					</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Monitoramento</h1>
 				</div>
+			</div>
 
-				<!-- /.row -->
-				<div class="row">
-					<!-- col-lg-1-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-									Excluir Dispositivo
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Escolha o Dispositivo e o Serviço de Monitoramento
+						</div>                            
+						<div class="panel-body">
+							<p>Escolha o Dispositivo</p>
+							<div class="form-group">
+								<label>DISPOSITIVO</label>
+								<select class="form-control" name="dispositivo" id="dispositivo">
+								<?php
+								
+									require_once('dbconnect.php');
+									
+									$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
+									$result = $mysqli->query($query);
+									
+									while($row = $result->fetch_assoc()){
+										$data[] = $row;
+										$pvid = $row["pvid"];
+										
+										echo "<option>".$pvid."</option>";
+									}
+								?>
+								</select>
 							</div>
-							<div class="panel-body">
-								<form role="form" method="post" action="deviceadd.php">
-									<div class="form-group">
-										<label>Informe o PVID</label>
-										<input class="form-control" name="dvpvid" placeholder="Por exemplo: 10">
-									</div>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
-									<!-- <button type="submit" class="btn btn-success" name="selecao" value="3">Atualizar</button> -->
-								</form>
+							<p>Escolha o Serviço para Monitoramento</p>
+							<div class="form-group">
+								<label>SERVIÇO</label>
+								<select class="form-control" name="servico" id="servico">
+								<?php
+								
+									require_once('dbconnect.php');
+									
+									//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
+									$query = "SELECT grupos FROM scripts_grupos";
+									$result = $mysqli->query($query);
+									
+									while($row = $result->fetch_assoc()){
+										$data[] = $row;
+										$gruposcript = $row["grupos"];
+										
+										echo "<option value=".$gruposcript.">".$gruposcript."</option>";
+									}
+								?>
+								</select>
 							</div>
 						</div>
+						<!-- /.panel-body -->
+						<div class="panel-footer">
+							Observações: A cada 3 segundos é atualizado automaticamente a página.
+						</div>
 					</div>
-					<!-- col-lg-1-->
+					<form method="post" action="liballserv.php">
+						<button type="submit" class="btn btn-primary">Monitorar</button>
+					</form>
+				</div>
+				<!-- /.col-lg-1 -->
+				
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Monitoramento
+						</div>  
+						<div class="panel-body">
+							<div id="chart"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-
+	</div>
 </div>
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-
 <script src="js/bootstrap.min.js"></script>
+
 <!-- Metis Menu Plugin JavaScript -->
 <script src="js/metisMenu.min.js"></script>
 
@@ -220,5 +270,39 @@ $email = $_SESSION["email"];
 
 </body>
 </html>
+<?php
+
+if(isset($_GET['servico'])){
+	$servico = $_GET['servico'];
+}else{
+	$servico = NULL;
+}
+
+require_once('dbconnect.php');
+
+$connect = mysqli_connect($host, $user, $pass, $db_name);
+$query = "SELECT * FROM retorno_scripts_teste WHERE num_servico = '$servico' AND retorno_scripts_testecol = '1' ORDER BY idretorno_scripts_teste";
+$result = mysqli_query($connect, $query);
+$chart_data = '';
+while($row = mysqli_fetch_array($result))
+{
+	$chart_data .= "{ y: ".$row["num_icmp"].", a: ".$row["num_time"]."}, ";
+}
+$chart_data = substr($chart_data, 0, -2);
+?>
+
+<script>
+Morris.Line({
+	element : 'chart',
+	data : [ <?php echo $chart_data; ?>	],
+	xkey : 'y',
+	ykeys: ['a'],
+	labels : ['Valor medido (ms)'],
+	parseTime: false,
+    hideHover: true
+});
+</script>
+
+<meta HTTP-EQUIV='refresh' CONTENT='3;URL=run_monitora.php'>
 
 
