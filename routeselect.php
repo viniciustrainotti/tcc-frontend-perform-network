@@ -14,7 +14,7 @@ $query = "SELECT route_enviado FROM route WHERE pvid = '$pvid' ORDER BY idroute"
 		$data[] = $row;
 		$route_enviado = $row["route_enviado"];
 		
-		echo $route_enviado;
+		echo nl2br($route_enviado);
 	}
 echo "</p>";
 
