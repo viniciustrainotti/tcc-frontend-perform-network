@@ -48,7 +48,7 @@ switch ($selecao) {
         //save article and redirect
     case '2':
 		
-		$sql = mysql_query("DELETE FROM parametros WHERE parametro_variavel = '$parametro_variavel';") or die(mysql_error());
+		$sql = mysql_query("DELETE FROM parametros WHERE idparametros = '$parametro_variavel';") or die(mysql_error());
 
 		if ($sql == TRUE) {
 			echo "<center>Parametro Excluido com Sucesso!</center>";
