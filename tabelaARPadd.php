@@ -25,9 +25,22 @@ $arp = $_POST['arp'];
 switch ($selecao) {
     case '1':
 	
-	echo $pvid . " ";
-	echo $arp;
+	//echo $pvid . " ";
+	//echo $arp;
 	
+	$arp = str_replace("\r","",$arp);
+	
+	$sql_search = mysql_query("SELECT * FROM arp WHERE pvid = '$pvid';");
+	
+	$num_rows = mysql_num_rows($sql_search);
+	
+	if($num_rows > 0){
+		
+		echo "<center>Não foi possível adicionar o arp do dispositivo! Pois ele já tem uma Tabela ARP cadastrada, por gentileza utilizar a opcao Atualizar!</center>";
+		echo "<script>loginfailed()</script>";
+	
+	}else{
+		
 		$sql = mysql_query("INSERT INTO arp (pvid, arp_conteudo) VALUES ('$pvid', '$arp')") or die(mysql_error());
 
 		if ($sql == TRUE) {
@@ -38,9 +51,13 @@ switch ($selecao) {
 			echo "<script>loginfailed()</script>";
 		}
 		
+	}
+	
        break;
         //save article and redirect
     case '2':
+	
+	$arp = str_replace("\r","",$arp);
 	
 		$sql = mysql_query("UPDATE arp SET arp_conteudo = '$arp' WHERE pvid = '$pvid';") or die(mysql_error());
 
