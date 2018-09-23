@@ -4,19 +4,19 @@ require_once('dbconnect.php');
 
 $pvid = $_GET['pvid'];
 
-echo "<label>Adicione ou Edite o texto conforme Tabela de Roteamento</label>";
-echo "<textarea class='form-control' name='route' id='route' rows='5'>";
+echo "<p>Tabela de Roteamento do Dispositivo selecionado</p>";
+echo "<p class='form-control-static'>";
 				
-$query = "SELECT route_conteudo FROM route WHERE pvid = '$pvid' ORDER BY idroute";
+$query = "SELECT route_enviado FROM route WHERE pvid = '$pvid' ORDER BY idroute";
 	$result = $mysqli->query($query);
 	
 	while($row = $result->fetch_assoc()){
 		$data[] = $row;
-		$route_conteudo = $row["route_conteudo"];
+		$route_enviado = $row["route_enviado"];
 		
-		echo $route_conteudo;
+		echo $route_enviado;
 	}
-echo "</textarea>";
+echo "</p>";
 
 
 ?>

@@ -192,11 +192,11 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Escolha o Dispositivo vinculado para comparação da Tabela Route cadastrada.
+								Escolha o Dispositivo para visualização da Tabela de Roteamento enviada
 							</div>						
 							<div class="panel-body">
 							<form method="post" action="tabelaROUTEadd.php" enctype="multipart/form-data">
-								<p>Escolha o Dispositivo na lista para edição</p>
+								<p>Escolha o Dispositivo na lista</p>
 								<div class="form-group">
 									<label>DISPOSITIVO</label>
 									<select class="form-control" name="pvid" id="pvid">
@@ -216,37 +216,19 @@ $email = $_SESSION["email"];
 									?>
 									</select>
 								</div>
-								<p>Insira/Atualize a Tabela Route do dispositivo selecionado</p>
 								<div class="form-group" id="teste">
-									<label>Adicione ou Edite o texto conforme Tabela de Roteamento</label>
-									<textarea class="form-control" name="route" id="route" rows="5">
-									<?php
 									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT route_conteudo FROM route WHERE pvid = '$pvid' ORDER BY idroute";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$route_conteudo = $row["route_conteudo"];
-		
-											echo $route_conteudo;
-											
-										}
-									?>
-									</textarea>
 								</div>
 								<p>
-									<button type="submit" class="btn btn-primary" name="selecao" value="1">Inserir</button>
+									<!-- <button type="submit" class="btn btn-primary" name="selecao" value="1">Inserir</button>
 									<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="3">Comparar</button>
+									<button type="submit" class="btn btn-danger" name="selecao" value="3">Comparar</button> -->
 									</p>
 							</form>
 							</div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
-								Observações
+								Observações: Para todos os dispositivos é utilizado o destino 8.8.8.8
 							</div>
 						</div>
 					</div>
