@@ -42,7 +42,7 @@
                             <form role="form" method="post" action="userauthentication.php">
                                 <fieldset>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                        <input class="form-control" placeholder="Login" name="email" autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input class="form-control" placeholder="Password" name="senha" type="password" value="">
@@ -50,6 +50,7 @@
                                     <!-- Change this to a button or input when using this as a form -->
                                     <input type="submit" class="btn btn-lg btn-success btn-block" value="Login" >
                                 </fieldset>
+								<a href="usuario_new.php">Novo Usuario</a>
                             </form>
                         </div>
                     </div>
