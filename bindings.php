@@ -113,9 +113,18 @@ $email = $_SESSION["email"];
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
 						</ul>
+						<!-- /.nav-second-level -->
 					</li>
 					<li>
-						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
+						<a href="#" class="active"><i class="fa fa-cube fa-fw"></i> Perfil<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="profile.php">Adicionar Perfil</a>
+							</li>
+							<li>
+								<a href="profile_vinc.php">Vinculações Perfil</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="parameters.php" class="active"><i class="fa fa-list fa-fw"></i> Parâmetros</a>
@@ -130,7 +139,15 @@ $email = $_SESSION["email"];
 						<a href="tableROUTE.php" class="active"><i class="fa fa-location-arrow fa-fw"></i> Tabela Roteamento</a>
 					</li>
 					<li>
-						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
+						<a href="#" class="active"><i class="fa fa-sheqel fa-fw"></i> Serviços<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="bindings.php">Adicionar Serviços</a>
+							</li>
+							<li>
+								<a href="bindings_vinc.php">Vinculações de Serviços</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="#" class="active"><i class="fa fa-play fa-fw"></i> Executar<span class="fa arrow"></span></a>
@@ -180,87 +197,6 @@ $email = $_SESSION["email"];
 
 				<!-- /.row -->
 				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Escolha o Serviço para vincular ao Perfil e Dispositivo
-							</div>						
-							<div class="panel-body">
-							<form method="post" action="bindingsadd.php" enctype="multipart/form-data">
-								<p>Escolha o Dispositivo na lista para vincular</p>
-								<div class="form-group">
-									<label>DISPOSITIVO</label>
-									<select class="form-control" name="dispositivo">
-									<?php
-									
-										require_once('dbconnect.php');
-										
-										$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$pvid = $row["pvid"];
-											
-											echo "<option>".$pvid."</option>";
-										}
-									?>
-									</select>
-								</div>
-									<p>Escolhe o Perfil respectivamente</p>
-									<div class="form-group">
-										<label>PERFIL</label>
-										<select class="form-control" name="perfil">
-										<?php
-										
-											require_once('dbconnect.php');
-											
-											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
-											$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$nome_perfil = $row["nome_perfil"];
-												
-												echo "<option>".$nome_perfil."</option>";
-											}
-										?>
-										</select>
-									</div>
-										<p>Escolha o Serviço para vincular ao Perfil e Dispositivo</p>
-										<div class="form-group">
-											<label>SERVIÇO</label>
-											<select class="form-control" name="servico">
-											<?php
-											
-												require_once('dbconnect.php');
-												
-												$query = "SELECT nome_servicos FROM servicos_tipos ORDER BY idservicos_tipos";
-												$result = $mysqli->query($query);
-												
-												while($row = $result->fetch_assoc()){
-													$data[] = $row;
-													$nome_servicos = $row["nome_servicos"];
-													
-													echo "<option>".$nome_servicos."</option>";
-												}
-											?>
-											</select>
-										</div>
-									<p>
-										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Serviço</button>
-										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Serviço</button>
-									</p>
-								</form>
-							</div>
-                            <!-- /.panel-body -->
-							<div class="panel-footer">
-								Observações
-							</div>
-						</div>
-					</div>
-					<!-- /.col-lg-1 -->
 					<!-- col-lg-2-->
 					<div class="col-lg-12">
 						<div class="panel panel-default">
@@ -280,47 +216,6 @@ $email = $_SESSION["email"];
 						</div>
 					</div>
 					<!-- /.col-lg-2-->
-					<!-- col-lg-3-->
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Lista de Serviços vinculados ao Perfil e ao Dispositivo
-							</div>                            
-							<div class="panel-body">
-                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>SERVIÇO</th>
-                                                <th>PERFIL</th>
-												<th>DISPOSITIVO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-										<?php 
-										
-										require_once('dbconnect.php');
-
-										$query = "SELECT nome_servico, perfil, dispositivo FROM servicos ORDER BY idservicos";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$nome_servico = $row["nome_servico"];
-											$perfil = $row["perfil"];
-											$dispositivo = $row["dispositivo"];
-											
-											
-											echo "<tr><td>".$nome_servico."</td><td>".$perfil."</td><td>".$dispositivo."</td></tr>";
-										}?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
-						</div>
-					</div>
-					<!-- /.col-lg-3 -->
 				</div>
 			</div>
 		</div>

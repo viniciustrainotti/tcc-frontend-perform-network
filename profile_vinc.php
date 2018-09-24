@@ -217,30 +217,157 @@ $(document).ready(function(){
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Adicionar Perfil</h1>
+						<h1 class="page-header">Vinculações de Perfil</h1>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="row">
-					<!-- col-lg-2-->
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-									Inserir Novo Perfil
-							</div>
+								Escolha o Perfil para vincular com os Scripts ou crie um novo perfil
+							</div>						
 							<div class="panel-body">
-								<form role="form" method="post" action="perfiladd.php">
+							<form method="post" action="perfiladd.php" enctype="multipart/form-data">
+								<p>Escolha o Perfil na lista para edição</p>
+								<div class="form-group">
+									<label>PERFIL</label>
+									<select class="form-control" name="perfil" id="perfil">
+									<?php
+									
+										require_once('dbconnect.php');
+										
+										$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$nome_perfil = $row["nome_perfil"];
+											
+											echo "<option>".$nome_perfil."</option>";
+										}
+									?>
+									</select>
+								</div>
+									<p>Escolhe o grupo do script respectivamente</p>
 									<div class="form-group">
-										<label>Informe o nome do novo Perfil</label>
-										<input class="form-control" name="perfil" placeholder="Por exemplo: perfilx">
+										<label>GRUPO</label>
+										<select class="form-control" name="grupo" id="grupo">
+										<?php
+										
+											require_once('dbconnect.php');
+											
+											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
+											$query = "SELECT grupos FROM scripts_grupos";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$gruposcript = $row["grupos"];
+												
+												echo "<option value=".$gruposcript.">".$gruposcript."</option>";
+											}
+										?>
+										</select>
 									</div>
-									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
+										<p>Escolha o Script respectivamente para vincular ao Perfil</p>
+										<div class="form-group" id="teste">
+											<label>SCRIPT</label>
+											<select class="form-control" name="script">
+												<?php
+													
+													require_once('dbconnect.php');
+													
+													//$query = "SELECT nomescript FROM scripts WHERE gruposcript = '$gruposcript' ORDER BY idscripts";
+													$query = "SELECT nomescript FROM scripts ORDER BY idscripts";
+													$result = $mysqli->query($query);
+													
+													while($row = $result->fetch_assoc()){
+														$data[] = $row;
+														$nomescript = $row["nomescript"];
+														
+														echo "<option>".$nomescript."</option>";
+													}
+										
+												?>
+											</select>
+										</div>
+										<p>Escolha o Parâmetro respectivamente para vincular ao Script e Perfil</p>
+										<div class="form-group" id="parametro">
+											<label>PARÂMETRO</label>
+											<select class="form-control" name="parametro">
+												<?php
+													
+													require_once('dbconnect.php');
+													
+													$query = "SELECT conteudo FROM parametros ORDER BY idparametros";
+													$result = $mysqli->query($query);
+													
+													while($row = $result->fetch_assoc()){
+														$data[] = $row;
+														$parametro_variavel = $row["conteudo"];
+														
+														echo "<option>".$parametro_variavel."</option>";
+													}
+										
+												?>
+											</select>
+										</div>
+									<p>
+										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Perfil ao Script</button>
+										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Perfil ao Script</button>
+									</p>
 								</form>
+							</div>
+                            <!-- /.panel-body -->
+							<div class="panel-footer">
+								Observações
 							</div>
 						</div>
 					</div>
+					<!-- /.col-lg-1 -->
+					<!-- col-lg-3-->
+					<div class="col-lg-12" id="show_product">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Lista de Perfis vinculados à scripts
+							</div>
+							<div class="panel-body">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>PERFIL</th>
+                                                <th>SCRIPT</th>
+												<th>PARAMETRO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										<?php 
+										
+										require_once('dbconnect.php');
+
+										$query = "SELECT nome_perfil, nome_script, nome_parametro FROM perfil_script_parametro ORDER BY nome_perfil,nome_script";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$nome_perfil = $row["nome_perfil"];
+											$nome_script = $row["nome_script"];
+											$nome_parametro = $row["nome_parametro"];
+											
+											
+											echo "<tr><td>".$nome_perfil."</td><td>".$nome_script."</td><td>".$nome_parametro."</td></tr>";
+										}?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+						</div>
+					</div>
+					<!-- /.col-lg-3 -->
 				</div>
 			</div>
 		</div>

@@ -113,9 +113,18 @@ $email = $_SESSION["email"];
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
 						</ul>
+						<!-- /.nav-second-level -->
 					</li>
 					<li>
-						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
+						<a href="#" class="active"><i class="fa fa-cube fa-fw"></i> Perfil<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="profile.php">Adicionar Perfil</a>
+							</li>
+							<li>
+								<a href="profile_vinc.php">Vinculações Perfil</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="parameters.php" class="active"><i class="fa fa-list fa-fw"></i> Parâmetros</a>
@@ -130,7 +139,15 @@ $email = $_SESSION["email"];
 						<a href="tableROUTE.php" class="active"><i class="fa fa-location-arrow fa-fw"></i> Tabela Roteamento</a>
 					</li>
 					<li>
-						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
+						<a href="#" class="active"><i class="fa fa-sheqel fa-fw"></i> Serviços<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li>
+								<a href="bindings.php">Adicionar Serviços</a>
+							</li>
+							<li>
+								<a href="bindings_vinc.php">Vinculações de Serviços</a>
+							</li>
+						</ul>
 					</li>
 					<li>
 						<a href="#" class="active"><i class="fa fa-play fa-fw"></i> Executar<span class="fa arrow"></span></a>

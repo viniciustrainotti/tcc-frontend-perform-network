@@ -52,33 +52,7 @@ $email = $_SESSION["email"];
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script>
- $(document).ready(function(){
-		$('#grupo').change(function(){
-			$('#teste').load('profileselect.php?grupo='+$('#grupo').val());
-			//var r = $('#grupo').val();
-			//alert(r);
-		});
-	});
-</script>
-<script>
-$(document).ready(function(){
-	$('#perfil').change(function(){
-		
-		var perfil = $(this).val();
-		
-		$.ajax({
-			url:"profileselectscript.php",
-			method:"POST",
-			data:{perfil:perfil},
-			success:function(data){
-				$('#show_product').html(data);
-			}
-		});
 	
-	});
-});
-</script>
 </head>
 <body>
 
@@ -217,30 +191,134 @@ $(document).ready(function(){
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Adicionar Perfil</h1>
+						<h1 class="page-header">Vinculações de Serviços</h1>
 					</div>
 				</div>
 
 				<!-- /.row -->
 				<div class="row">
-					<!-- col-lg-2-->
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-									Inserir Novo Perfil
-							</div>
+								Escolha o Serviço para vincular ao Perfil e Dispositivo
+							</div>						
 							<div class="panel-body">
-								<form role="form" method="post" action="perfiladd.php">
+							<form method="post" action="bindingsadd.php" enctype="multipart/form-data">
+								<p>Escolha o Dispositivo na lista para vincular</p>
+								<div class="form-group">
+									<label>DISPOSITIVO</label>
+									<select class="form-control" name="dispositivo">
+									<?php
+									
+										require_once('dbconnect.php');
+										
+										$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$pvid = $row["pvid"];
+											
+											echo "<option>".$pvid."</option>";
+										}
+									?>
+									</select>
+								</div>
+									<p>Escolhe o Perfil respectivamente</p>
 									<div class="form-group">
-										<label>Informe o nome do novo Perfil</label>
-										<input class="form-control" name="perfil" placeholder="Por exemplo: perfilx">
+										<label>PERFIL</label>
+										<select class="form-control" name="perfil">
+										<?php
+										
+											require_once('dbconnect.php');
+											
+											//$query = "SELECT gruposcript FROM scripts GROUP BY gruposcript";
+											$query = "SELECT nome_perfil FROM perfil ORDER BY idperfil";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$nome_perfil = $row["nome_perfil"];
+												
+												echo "<option>".$nome_perfil."</option>";
+											}
+										?>
+										</select>
 									</div>
-									<button type="submit" class="btn btn-primary"name="selecao" value="1">Adicionar</button>
-									<button type="submit" class="btn btn-danger" name="selecao" value="2">Excluir</button>
+										<p>Escolha o Serviço para vincular ao Perfil e Dispositivo</p>
+										<div class="form-group">
+											<label>SERVIÇO</label>
+											<select class="form-control" name="servico">
+											<?php
+											
+												require_once('dbconnect.php');
+												
+												$query = "SELECT nome_servicos FROM servicos_tipos ORDER BY idservicos_tipos";
+												$result = $mysqli->query($query);
+												
+												while($row = $result->fetch_assoc()){
+													$data[] = $row;
+													$nome_servicos = $row["nome_servicos"];
+													
+													echo "<option>".$nome_servicos."</option>";
+												}
+											?>
+											</select>
+										</div>
+									<p>
+										<button type="submit" class="btn btn-success" name="selecao" value="3">Vincular Serviço</button>
+										<button type="submit" class="btn btn-danger" name="selecao" value="4">Desvincular Serviço</button>
+									</p>
 								</form>
+							</div>
+                            <!-- /.panel-body -->
+							<div class="panel-footer">
+								Observações
 							</div>
 						</div>
 					</div>
+					<!-- /.col-lg-1 -->
+					<!-- col-lg-3-->
+					<div class="col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Lista de Serviços vinculados ao Perfil e ao Dispositivo
+							</div>                            
+							<div class="panel-body">
+                                <div class="table-responsive" style="overflow: auto; width: auto; height: 350px">
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>SERVIÇO</th>
+                                                <th>PERFIL</th>
+												<th>DISPOSITIVO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+										<?php 
+										
+										require_once('dbconnect.php');
+
+										$query = "SELECT nome_servico, perfil, dispositivo FROM servicos ORDER BY idservicos";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$nome_servico = $row["nome_servico"];
+											$perfil = $row["perfil"];
+											$dispositivo = $row["dispositivo"];
+											
+											
+											echo "<tr><td>".$nome_servico."</td><td>".$perfil."</td><td>".$dispositivo."</td></tr>";
+										}?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.table-responsive -->
+                            </div>
+						</div>
+					</div>
+					<!-- /.col-lg-3 -->
 				</div>
 			</div>
 		</div>
@@ -261,8 +339,6 @@ $(document).ready(function(){
 
 </body>
 </html>
-
-
 
 
 
