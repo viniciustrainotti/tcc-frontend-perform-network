@@ -417,7 +417,7 @@ if(is_dir($diretoriofinal)){
 									
 									}
 									
-									$query001 = "UPDATE servicos SET download='N', servico_disp = 0 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+									$query001 = "UPDATE servicos SET download='N', servico_disp = 1 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
 										
 									$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
 									
@@ -808,7 +808,7 @@ if(is_dir($diretoriofinal)){
 									
 									}
 									
-									$query001 = "UPDATE servicos SET download='N', servico_disp = 0 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+									$query001 = "UPDATE servicos SET download='N', servico_disp = 1 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
 										
 									$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
 									
