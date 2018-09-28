@@ -395,19 +395,6 @@ if(is_dir($diretoriofinal)){
 										echo $sql . "\n";
 									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
-										
-										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
-										
-										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
-										
-										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
-										
-										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
-										
-										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-										
-										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
-										
 									
 									}else{
 									
@@ -419,23 +406,20 @@ if(is_dir($diretoriofinal)){
 										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
 										
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
-										
-										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
-										//$result001 = $mysqli->query($query001);
-										
-										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
-										
-										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
-										//$result010 = $mysqli->query($query010);
-										
-										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
-										
-										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-										//$result1 = $mysqli->query($query10);
-										
-										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
 									
 									}
+									
+									$query001 = "UPDATE servicos SET download='N', servico_disp = 0 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+										
+									$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+									
+									$query010 = "UPDATE arquivos_teste SET download='N' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+									
+									$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+									
+									$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+									
+									$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
 										
 								break;
 							
@@ -795,19 +779,6 @@ if(is_dir($diretoriofinal)){
 									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
-										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
-										
-										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
-										
-										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
-										
-										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
-										
-										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-										
-										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
-										
-									
 									}else{
 									
 										//$resultado_array = 0;
@@ -818,23 +789,20 @@ if(is_dir($diretoriofinal)){
 										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
 										
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
-										
-										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
-										//$result001 = $mysqli->query($query001);
-										
-										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
-										
-										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
-										//$result010 = $mysqli->query($query010);
-										
-										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
-										
-										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-										//$result1 = $mysqli->query($query10);
-										
-										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
 									
 									}
+									
+									$query001 = "UPDATE servicos SET download='N', servico_disp = 0 WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+										
+									$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+									
+									$query010 = "UPDATE arquivos_teste SET download='N' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+									
+									$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+									
+									$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+									
+									$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
 								
 								break;	
 							
