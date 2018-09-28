@@ -375,6 +375,12 @@ if(is_dir($diretoriofinal)){
 										
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
 											
+											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
+											$result001 = $mysqli->query($query001);
+											
+											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
+											$result010 = $mysqli->query($query010);
+											
 											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
 											$result1 = $mysqli->query($query10);
 											
@@ -389,6 +395,12 @@ if(is_dir($diretoriofinal)){
 											//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
 											
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
+											$result001 = $mysqli->query($query001);
+											
+											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
+											$result010 = $mysqli->query($query010);
 											
 											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
 											$result1 = $mysqli->query($query10);
@@ -732,6 +744,66 @@ if(is_dir($diretoriofinal)){
 									
 									}
 								}
+								
+								break;
+								
+							case "MONITORAMENTO":	
+							
+								foreach($lines as $linha){
+							
+										//variação para scripts de PING
+										$linha = trim($linha);
+										$valor = explode(' ', $linha);
+										//var_dump($valor);
+										//ping
+										if($valor[0] == '64'){
+											
+											//print_r($valor);
+											list($var, $icmp_seq) = explode("=",$valor[5]);
+											list($var, $ttl) = explode("=",$valor[6]);
+											list($var, $time) = explode("=",$valor[7]);
+											//$resultado_array = 1;
+											
+											//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+											
+											$sql = "INSERT INTO retorno_scripts_teste (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
+												
+											echo $sql . "\n";
+										
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
+											$result001 = $mysqli->query($query001);
+											
+											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
+											$result010 = $mysqli->query($query010);
+											
+											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+											$result1 = $mysqli->query($query10);
+											
+										
+										}else{
+										
+											//$resultado_array = 0;
+											
+											$time = '0';
+										
+											$sql = "INSERT INTO retorno_scripts_teste (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
+											//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+											
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
+											$result001 = $mysqli->query($query001);
+											
+											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
+											$result010 = $mysqli->query($query010);
+											
+											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+											$result1 = $mysqli->query($query10);
+										
+										}
+									}
 								
 								break;	
 							
