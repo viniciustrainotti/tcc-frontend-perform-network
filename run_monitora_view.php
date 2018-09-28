@@ -200,47 +200,13 @@ $email = $_SESSION["email"];
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							Escolha o Dispositivo e o Serviço de Monitoramento
-						</div>                            
+							Monitoramento Dispositvo <?php if(isset($_GET['dispositivo'])){ echo $_GET['dispositivo']; } else { echo "0"; } ?> - Serviço <?php if(isset($_GET['servico'])){ echo $_GET['servico']; } else { echo "0"; } ?>
+						</div>  
 						<div class="panel-body">
-						<form method="get" action="run_monitora_view.php" enctype="multipart/form-data" target="_blank">
-							<p>Escolha o Dispositivo</p>
-							<div class="form-group">
-								<label>DISPOSITIVO</label>
-								<select class="form-control" name="dispositivo" id="dispositivo">
-								<?php
-								
-									require_once('dbconnect.php');
-									
-									$query = "SELECT pvid FROM dispositivos ORDER BY iddispositivo";
-									$result = $mysqli->query($query);
-									
-									while($row = $result->fetch_assoc()){
-										$data[] = $row;
-										$pvid = $row["pvid"];
-										
-										echo "<option>".$pvid."</option>";
-									}
-								?>
-								</select>
-							</div>
-							<p>Escolha o Serviço para Monitoramento</p>
-							<div class="form-group">
-								<label>SERVIÇO</label>
-								<select class="form-control" name="servico" id="servico">
-									<option>99</option>
-								</select>
-							</div>
+							<div id="chart"></div>
 						</div>
-						<!-- /.panel-body -->
 					</div>
-					<p>
-						<button type="submit" class="btn btn-primary" name="selecao" value="1">Monitorar</button>
-					</p>
-					</form>
 				</div>
-				<!-- /.col-lg-1 -->
-				
 			</div>
 		</div>
 	</div>
@@ -260,3 +226,47 @@ $email = $_SESSION["email"];
 
 </body>
 </html>
+<?php
+
+if(isset($_GET['servico'])){
+	$servico = $_GET['servico'];
+}else{
+	$servico = NULL;
+}
+
+if(isset($_GET['dispositivo'])){
+	$dispositivo = $_GET['dispositivo'];
+}else{
+	$dispositivo = NULL;
+}
+
+//echo $servico;
+
+require_once('dbconnect.php');
+
+$connect = mysqli_connect($host, $user, $pass, $db_name);
+$query = "SELECT * FROM retorno_script_monitoramento_ping WHERE servico = '$servico' AND dispositivo = '$dispositivo' ORDER BY idretorno_script_monitoramento_ping";
+$result = mysqli_query($connect, $query);
+$chart_data = '';
+while($row = mysqli_fetch_array($result))
+{
+	$chart_data .= "{ y: ".$row["idretorno_script_monitoramento_ping"].", a: ".$row["valor"]."}, ";
+}
+$chart_data = substr($chart_data, 0, -2);
+?>
+
+<script>
+Morris.Line({
+	element : 'chart',
+	data : [ <?php echo $chart_data; ?>	],
+	xkey : 'y',
+	ykeys: ['a'],
+	labels : ['Valor medido (ms)'],
+	parseTime: false,
+    hideHover: true
+});
+</script>
+<!-- utilizado somente content pra nao perder o get -->
+<meta HTTP-EQUIV='refresh' CONTENT='3'>
+
+
