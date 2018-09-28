@@ -2,6 +2,32 @@
 // Nas versões do PHP anteriores a 4.1.0, $HTTP_POST_FILES deve ser utilizado ao invés
 // de $_FILES.
 
+function ping_var($line, $time, $ms){
+
+//64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17 ms
+
+//$line = '64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17 ms';
+
+//devido ao strpos ser a primeira aparição da string preciso contar a mais o tamanho dela ou seja na $line a string 'time=' está na posicao 42 e o tamanho dela é 5;
+$mystring = $line;
+
+$findme = $time;
+$legthTime = strlen($time);
+$pos = $legthTime + strpos($mystring, $findme);
+
+$mystring0 = $line;
+
+$findme0 = $ms;
+$pos0 = strpos($mystring0, $findme0);
+
+$posfinal = $pos0 - $pos;
+
+$rest = substr($mystring, $pos, $posfinal);
+
+return $rest;
+
+}
+
 function deleteDirectory($dir) {
     if (!file_exists($dir)) {
         return true;
@@ -352,64 +378,66 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								foreach($lines as $linha){
-							
-										//variação para scripts de PING
-										$linha = trim($linha);
-										$valor = explode(' ', $linha);
-										//var_dump($valor);
-										//ping
-										if($valor[0] == '64'){
-											
-											//print_r($valor);
-											list($var, $icmp_seq) = explode("=",$valor[5]);
-											list($var, $ttl) = explode("=",$valor[6]);
-											list($var, $time) = explode("=",$valor[7]);
-											//$resultado_array = 1;
-											
-											//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
-											
-											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
-												
-											echo $sql . "\n";
+									$linha = trim($lines[1]);
+									
+									echo $linha; 
+									
+									$valor64 = substr($linha, 0, 2);
+									
+									if($valor64 == '64'){
 										
-											$resultadoQuery = mysql_query($sql) or die(mysql_error());
-											
-											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
-											$result001 = $mysqli->query($query001);
-											
-											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
-											$result010 = $mysqli->query($query010);
-											
-											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-											$result1 = $mysqli->query($query10);
-											
+										$time = trim(ping_var($linha, 'time=', 'ms'));
 										
-										}else{
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
 										
-											//$resultado_array = 0;
+										$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
 											
-											$time = '0';
+										echo $sql . "\n";
+									
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
-											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
-											//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
-											
-											$resultadoQuery = mysql_query($sql) or die(mysql_error());
-											
-											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
-											$result001 = $mysqli->query($query001);
-											
-											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
-											$result010 = $mysqli->query($query010);
-											
-											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-											$result1 = $mysqli->query($query10);
+										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
 										
-										}
+										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+										
+										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+										
+										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+										
+										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+										
+										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
+										
+									
+									}else{
+									
+										//$resultado_array = 0;
+										
+										$time = '0';
+									
+										$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
+										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+										//$result001 = $mysqli->query($query001);
+										
+										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+										
+										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+										//$result010 = $mysqli->query($query010);
+										
+										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+										
+										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+										//$result1 = $mysqli->query($query10);
+										
+										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
+									
 									}
-								
+										
 								break;
-								
 							
 							default:
 						
@@ -749,60 +777,63 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								foreach($lines as $linha){
-							
-										//variação para scripts de PING
-										$linha = trim($linha);
-										$valor = explode(' ', $linha);
-										var_dump($valor);
-										//ping
-										if($valor[0] == '64'){
-											
-											//print_r($valor);
-											list($var, $icmp_seq) = explode("=",$valor[5]);
-											list($var, $ttl) = explode("=",$valor[6]);
-											list($var, $time) = explode("=",$valor[7]);
-											//$resultado_array = 1;
-											
-											//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
-											echo "time " . $time;
-											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
-												
-											echo $sql . "\n";
+								$linha = trim($lines[1]);
+									
+									//echo $linha; 
+									
+									$valor64 = substr($linha, 0, 2);
+									
+									if($valor64 == '64'){
 										
-											$resultadoQuery = mysql_query($sql) or die(mysql_error());
-											
-											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
-											$result001 = $mysqli->query($query001);
-											
-											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
-											$result010 = $mysqli->query($query010);
-											
-											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-											$result1 = $mysqli->query($query10);
-											
+										$time = trim(ping_var($linha, 'time=', 'ms'));
 										
-										}else{
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
 										
-											//$resultado_array = 0;
+										$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
 											
-											$time = '0';
-											echo "time " . $time;
-											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
-											//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
-											
-											$resultadoQuery = mysql_query($sql) or die(mysql_error());
-											
-											$query001 = "UPDATE servicos SET download='S' WHERE pvid='$arr[$i]' AND nome_servico = '99'";
-											$result001 = $mysqli->query($query001);
-											
-											$query010 = "UPDATE arquivos_teste SET download='S' WHERE pvid='$arr[$i]' AND servico = '99'";
-											$result010 = $mysqli->query($query010);
-											
-											$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
-											$result1 = $mysqli->query($query10);
+										echo $sql . "\n";
+									
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
-										}
+										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+										
+										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+										
+										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+										
+										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+										
+										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+										
+										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
+										
+									
+									}else{
+									
+										//$resultado_array = 0;
+										
+										$time = '0';
+									
+										$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
+										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										
+										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+										
+										$query001 = "UPDATE servicos SET download='S' WHERE dispositivo='$arr[$i]' AND nome_servico = '99'";
+										//$result001 = $mysqli->query($query001);
+										
+										$resultadoQuery001 = mysql_query($query001) or die(mysql_error());
+										
+										$query010 = "UPDATE arquivos_teste SET download='S' WHERE dispositivo='$arr[$i]' AND servico = '99'";
+										//$result010 = $mysqli->query($query010);
+										
+										$resultadoQuery010 = mysql_query($query010) or die(mysql_error());
+										
+										$query10 = "UPDATE dispositivos SET servicos='1' WHERE pvid='$arr[$i]'";
+										//$result1 = $mysqli->query($query10);
+										
+										$resultadoQuery10 = mysql_query($query10) or die(mysql_error());
+									
 									}
 								
 								break;	
