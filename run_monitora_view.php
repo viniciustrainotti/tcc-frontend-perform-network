@@ -196,6 +196,7 @@ $email = $_SESSION["email"];
 			</div>
 
 			<!-- /.row -->
+			<form method="post" action="monitora_view_add.php" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
@@ -206,8 +207,15 @@ $email = $_SESSION["email"];
 							<div id="chart"></div>
 						</div>
 					</div>
+					<input type="hidden" name="dispositivo" value="<?php if(isset($_GET['dispositivo'])){ echo $_GET['dispositivo']; } else { echo "0"; } ?>"></input>
+					<input type="hidden" name="servico" value="<?php if(isset($_GET['servico'])){ echo $_GET['servico']; } else { echo "0"; } ?>"></input>
+					<p>
+						<button type="submit" class="btn btn-danger" name="selecao" value="1">Parar Monitoramento</button>
+						<button type="submit" class="btn btn-primary" name="selecao" value="2">Limpar Dados</button>
+					</p>
 				</div>
 			</div>
+			</form>
 		</div>
 	</div>
 </div>

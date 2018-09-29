@@ -16,12 +16,12 @@ if(is_dir($diretoriofinal)){
 
 	//echo $uploaddir;
 
-	$uploadfile = $uploaddir . basename($_FILES['logfile']['name']);
+	$uploadfile = $uploaddir . basename($_FILES['lograspfile']['name']);
 
 	//$arquivo = basename($_FILES['userfile']['name']);
 
 	echo '<pre>';
-	if (move_uploaded_file($_FILES['logfile']['tmp_name'], $uploadfile)) {
+	if (move_uploaded_file($_FILES['lograspfile']['tmp_name'], $uploadfile)) {
 	
 		echo "Arquivo válido e enviado com sucesso.\n";
 
@@ -37,12 +37,12 @@ if(is_dir($diretoriofinal)){
 
 	//echo $uploaddir;
 
-	$uploadfile = $uploaddir . basename($_FILES['logfile']['name']);
+	$uploadfile = $uploaddir . basename($_FILES['lograspfile']['name']);
 
 	//$arquivo = basename($_FILES['userfile']['name']);
 
 	//echo '<pre>';
-	if (move_uploaded_file($_FILES['logfile']['tmp_name'], $uploadfile)) {
+	if (move_uploaded_file($_FILES['lograspfile']['tmp_name'], $uploadfile)) {
 			
 		echo "Arquivo válido e enviado com sucesso.\n";
 
