@@ -38,7 +38,9 @@ switch ($selecao) {
 			$row = mysql_num_rows($sql);
 			
 			if($row > 0){
-				echo '<a>'.$arquivo.'</a><br />';
+			
+				$sql = mysql_query("UPDATE scripts SET conteudo = '$conteudo' WHERE nomescript = '$arquivo' AND gruposcript = '$grupo'") or die(mysql_error());
+				//echo '<a>'.$arquivo.'</a><br />';
 			
 			}else{
 				$sql = mysql_query("INSERT INTO scripts (nomescript, conteudo, gruposcript) VALUES ('$arquivo', '$conteudo', '$grupo')") or die(mysql_error());
