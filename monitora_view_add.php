@@ -57,7 +57,7 @@ switch ($selecao) {
         //save article and redirect
     case '2':
 	
-		$sql1 = mysql_query("DELETE FROM retorno_script_monitoramento_ping WHERE dispositivo ='$dispositivo' AND servico = '$servico';") or die(mysql_error());
+		$sql = mysql_query("DELETE FROM retorno_script_monitoramento_ping WHERE dispositivo ='$dispositivo' AND servico = '$servico';") or die(mysql_error());
 
 		if ($sql == TRUE) {
 			echo "<center>Limpado Monitoramento com Sucesso!</center>";

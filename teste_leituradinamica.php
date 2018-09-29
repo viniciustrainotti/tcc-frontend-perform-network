@@ -1,6 +1,6 @@
 <?php
 
-function ping_time($line, $time, $ms){
+function no_response($line, $time, $ms){
 
 //64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17 ms
 
@@ -13,10 +13,11 @@ $findme = $time;
 $legthTime = strlen($time);
 $pos = $legthTime + strpos($mystring, $findme);
 
-$mystring0 = $line;
+// $mystring0 = $line;
 //$findme0   = 'ms';
-$findme0 = $ms;
-$pos0 = strpos($mystring0, $findme0);
+// $findme0 = $ms;
+// $pos0 = strpos($mystring0, $findme0);
+$pos0 = $ms;
 
 // Note o uso de ===.  Simples == não funcionaria como esperado
 // por causa da posição de 'a' é 0 (primeiro) caractere.
@@ -53,12 +54,13 @@ return $rest;
 
 }
 
-$line = '64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17777777 ms';
-$time = 'time=';
-$ms = 'ms';
+$line = 'no answer yet for icmp_seq=5';
+// $line = '64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17777777 ms';
+$icmp_seq = 'icmp_seq=';
+$ms = strlen($line);
 
-$ping_time = ping_time($line, $time, $ms);
+$no_response_icmp = no_response($line, $icmp_seq, $ms);
 
-echo $ping_time;
+echo trim($no_response_icmp);
 
 ?>

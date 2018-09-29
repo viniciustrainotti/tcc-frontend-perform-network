@@ -264,7 +264,7 @@ $chart_data = substr($chart_data, 0, -2);
 ?>
 
 <script>
-Morris.Line({
+Morris.Area({
 	element : 'chart',
 	data : [ <?php echo $chart_data; ?>	],
 	xkey : 'y',
@@ -275,6 +275,6 @@ Morris.Line({
 });
 </script>
 <!-- utilizado somente content pra nao perder o get -->
-<meta HTTP-EQUIV='refresh' CONTENT='3'>
+<meta HTTP-EQUIV='refresh' CONTENT='6'>
 
 

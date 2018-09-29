@@ -793,9 +793,7 @@ if(is_dir($diretoriofinal)){
 										
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
-										}else{
-										
-											//$resultado_array = 0;
+										}elseif($valor64 == 'no'){
 											
 											$time = '0';
 										
