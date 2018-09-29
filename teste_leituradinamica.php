@@ -54,8 +54,8 @@ return $rest;
 
 }
 
-$line = 'no answer yet for icmp_seq=5';
-// $line = '64 bytes from 8.8.8.8: icmp_seq=1 ttl=120 time=9.17777777 ms';
+// $line = 'no answer yet for icmp_seq=5';
+$line = '64 bytes from 192.168.100.43: icmp_seq=10 ttl=127 time=2.25 ms';
 $icmp_seq = 'icmp_seq=';
 $ms = strlen($line);
 

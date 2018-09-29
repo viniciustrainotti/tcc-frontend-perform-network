@@ -28,6 +28,24 @@ return $rest;
 
 }
 
+function no_response($line, $time, $ms){
+
+$mystring = $line;
+
+$findme = $time;
+$legthTime = strlen($time);
+$pos = $legthTime + strpos($mystring, $findme);
+
+$pos0 = $ms;
+
+$posfinal = $pos0 - $pos;
+
+$rest = substr($mystring, $pos, $posfinal);
+
+return $rest;
+
+}
+
 function deleteDirectory($dir) {
     if (!file_exists($dir)) {
         return true;
@@ -378,15 +396,15 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								$qtdeDeLinhas = count($lines) - 4;
+								$qtdeDeLinhas = count($lines) - 5;
 							
-								echo "tudo isso de linhas? ". $qtdeDeLinhas;
+								// echo "tudo isso de linhas AQUIIIi? ". $qtdeDeLinhas;
 								
 									for($indiceLinha = 1; $indiceLinha <= $qtdeDeLinhas; $indiceLinha++){
 									
 										$linha = trim($lines[$indiceLinha]);
 										
-										echo nl2br("\n\n" . $linha); 
+										// echo nl2br("\n\n" . $linha); 
 										
 										$valor64 = substr($linha, 0, 2);
 										
@@ -394,23 +412,46 @@ if(is_dir($diretoriofinal)){
 											
 											$time = trim(ping_var($linha, 'time=', 'ms'));
 											
+											$icmp = trim(ping_var($linha, 'icmp_seq=', 'ttl'));
+											
+											$ttl = trim(ping_var($linha, 'ttl=', 'time'));
+											
 											//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
 											
 											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
 												
+											// echo $sql . "\n";
+										
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp', '$ttl', '$time', NOW())";
+											
 											echo $sql . "\n";
 										
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
-										}else{
+										}elseif($valor64 == 'no'){
 										
-											//$resultado_array = 0;
-											
 											$time = '0';
+											$ttl = '0';
+											
+											$icmp_seq = 'icmp_seq=';
+											
+											$ms = strlen($lines[$indiceLinha]);
+
+											$no_response_icmp = no_response($linha, $icmp_seq, $ms);
+
+											$no_response_icmp = trim($no_response_icmp);
 										
 											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
 											//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
 											
+											$resultadoQuery = mysql_query($sql) or die(mysql_error());
+											
+											$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$no_response_icmp', '$ttl', '$time', NOW())";
+											
+											echo $sql . "\n";
+										
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
 										}
@@ -769,15 +810,15 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								$qtdeDeLinhas = count($lines) - 4;
+								$qtdeDeLinhas = count($lines) - 5;
 							
-								echo "tudo isso de linhas? ". $qtdeDeLinhas;
+								// echo "tudo isso de linhas? ". $qtdeDeLinhas;
 								
 									for($indiceLinha = 1; $indiceLinha <= $qtdeDeLinhas; $indiceLinha++){
 									
 										$linha = trim($lines[$indiceLinha]);
 										
-										echo nl2br("\n\n" . $linha); 
+										// echo nl2br("\n\n" . $linha); 
 										
 										$valor64 = substr($linha, 0, 2);
 										
@@ -789,7 +830,7 @@ if(is_dir($diretoriofinal)){
 											
 											$sql = "INSERT INTO retorno_script_monitoramento_ping (dispositivo, servico, script, valor, date) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$time', NOW())";
 												
-											echo $sql . "\n";
+											// echo $sql . "\n";
 										
 											$resultadoQuery = mysql_query($sql) or die(mysql_error());
 										
