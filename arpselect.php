@@ -18,5 +18,23 @@ $query = "SELECT arp_conteudo FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
 	}
 echo "</textarea>";
 
+echo "</br>";
+
+echo "<label>Retorno da Tabela ARP do Dispositivo</label>";
+
+echo "<p class='form-control-static'>";
+		
+$query = "SELECT arp_comparacao FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
+	$result = $mysqli->query($query);
+
+	while($row = $result->fetch_assoc()){
+		$data[] = $row;
+		$arp_comparacao = $row["arp_comparacao"];
+
+		echo nl2br($arp_comparacao);
+		
+	}
+	
+echo "</p>";
 
 ?>

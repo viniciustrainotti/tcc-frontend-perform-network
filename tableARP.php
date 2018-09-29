@@ -121,6 +121,9 @@ $email = $_SESSION["email"];
 							<li>
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
+							<li>
+								<a href="devices_logs.php">Logs Dispositivo</a>
+							</li>
 						</ul>
 						<!-- /.nav-second-level -->
 					</li>
@@ -253,12 +256,32 @@ $email = $_SESSION["email"];
 										}
 									?>
 									</textarea>
+									</br>
+									<label>Retorno da Tabela ARP do Dispositivo</label>
+									<p class="form-control-static">
+									<?php 
+										
+										require_once('dbconnect.php');
+										
+										$query = "SELECT arp_comparacao FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
+										$result = $mysqli->query($query);
+										
+										while($row = $result->fetch_assoc()){
+											$data[] = $row;
+											$arp_comparacao = $row["arp_comparacao"];
+		
+											echo $arp_comparacao;
+											
+										}
+										
+										?>	
+									</p>
 								</div>
 								<p>
 									<button type="submit" class="btn btn-primary" name="selecao" value="1">Inserir</button>
 									<button type="submit" class="btn btn-success" name="selecao" value="2">Atualizar</button>
 									<button type="submit" class="btn btn-danger" name="selecao" value="3">Comparar</button>
-									</p>
+								</p>
 							</form>
 							</div>
                             <!-- /.panel-body -->

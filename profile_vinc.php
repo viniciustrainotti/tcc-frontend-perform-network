@@ -138,6 +138,9 @@ $(document).ready(function(){
 							<li>
 								<a href="devices_excluir.php">Excluir Dispositivo</a>
 							</li>
+							<li>
+								<a href="devices_logs.php">Logs Dispositivo</a>
+							</li>
 						</ul>
 						<!-- /.nav-second-level -->
 					</li>
