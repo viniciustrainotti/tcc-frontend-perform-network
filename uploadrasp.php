@@ -227,40 +227,53 @@ if(is_dir($diretoriofinal)){
 						
 							case "PING":
 							
-								foreach($lines as $linha){
-						
-									//variação para scripts de PING
-									$linha = trim($linha);
-									$valor = explode(' ', $linha);
-									//var_dump($valor);
-									//ping
-									if($valor[0] == '64'){
+								$qtdeDeLinhas = count($lines) - 4;
+								
+								for($indiceLinha = 1; $indiceLinha <= $qtdeDeLinhas; $indiceLinha++){
+								
+									$linha = trim($lines[$indiceLinha]);
+									
+									// echo nl2br("\n\n" . $linha); 
+									
+									$valor64 = substr($linha, 0, 2);
+									
+									if($valor64 == '64'){
 										
-										//print_r($valor);
-										list($var, $icmp_seq) = explode("=",$valor[5]);
-										list($var, $ttl) = explode("=",$valor[6]);
-										list($var, $time) = explode("=",$valor[7]);
-										$resultado_array = 1;
+										$time = trim(ping_var($linha, 'time=', 'ms'));
 										
-										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										$icmp = trim(ping_var($linha, 'icmp_seq=', 'ttl'));
 										
-										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
-											
-										echo $sql . "\n";
+										$ttl = trim(ping_var($linha, 'ttl=', 'time'));
+										
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp', '$ttl', '$time', NOW())";
+										
+										// echo $sql . "\n";
 									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+									
+									}elseif($valor64 == 'no'){
+									
+										$time = '0';
+										$ttl = '0';
 										
-									
-									}else{
-									
-										$resultado_array = 0;
-									
-										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '0', '0', '0', '$resultado_array', NOW())";
-										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										$icmp_seq = 'icmp_seq=';
 										
+										$ms = strlen($lines[$indiceLinha]);
+
+										$no_response_icmp = no_response($linha, $icmp_seq, $ms);
+
+										$no_response_icmp = trim($no_response_icmp);
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$no_response_icmp', '$ttl', '$time', NOW())";
+										
+										// echo $sql . "\n";
+									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
 									
 									}
+								
 								}
 								
 								break;
@@ -641,40 +654,53 @@ if(is_dir($diretoriofinal)){
 						
 							case "PING":
 							
-								foreach($lines as $linha){
-						
-									//variação para scripts de PING
-									$linha = trim($linha);
-									$valor = explode(' ', $linha);
-									//var_dump($valor);
-									//ping
-									if($valor[0] == '64'){
+								$qtdeDeLinhas = count($lines) - 4;
+								
+								for($indiceLinha = 1; $indiceLinha <= $qtdeDeLinhas; $indiceLinha++){
+								
+									$linha = trim($lines[$indiceLinha]);
+									
+									// echo nl2br("\n\n" . $linha); 
+									
+									$valor64 = substr($linha, 0, 2);
+									
+									if($valor64 == '64'){
 										
-										//print_r($valor);
-										list($var, $icmp_seq) = explode("=",$valor[5]);
-										list($var, $ttl) = explode("=",$valor[6]);
-										list($var, $time) = explode("=",$valor[7]);
-										$resultado_array = 1;
+										$time = trim(ping_var($linha, 'time=', 'ms'));
 										
-										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp_seq . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										$icmp = trim(ping_var($linha, 'icmp_seq=', 'ttl'));
 										
-										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp_seq', '$ttl', '$time', '$resultado_array', NOW())";
-											
-										echo $sql . "\n";
+										$ttl = trim(ping_var($linha, 'ttl=', 'time'));
+										
+										//echo "dispositivo ". $arr[$i] . "servico ". $array_servicos[$j] . "icmp " .$icmp . "ttl " . $ttl . " time " .$time . "resultado ". $resultado_array;
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$icmp', '$ttl', '$time', NOW())";
+										
+										// echo $sql . "\n";
 									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
+									
+									}elseif($valor64 == 'no'){
+									
+										$time = '0';
+										$ttl = '0';
 										
-									
-									}else{
-									
-										$resultado_array = 0;
-									
-										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, retorno_scripts_testecol, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '0', '0', '0', '$resultado_array', NOW())";
-										//$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, retorno_scripts_testecol) VALUES ('$arr[$i]', '$array_servicos[$j]','$resultado_array')";
+										$icmp_seq = 'icmp_seq=';
 										
+										$ms = strlen($lines[$indiceLinha]);
+
+										$no_response_icmp = no_response($linha, $icmp_seq, $ms);
+
+										$no_response_icmp = trim($no_response_icmp);
+										
+										$sql = "INSERT INTO retorno_scripts_teste (pvid_dispositivo, num_servico, nome_script, num_icmp, num_ttl, num_time, data_hora) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', '$no_response_icmp', '$ttl', '$time', NOW())";
+										
+										// echo $sql . "\n";
+									
 										$resultadoQuery = mysql_query($sql) or die(mysql_error());
 									
 									}
+								
 								}
 								
 								break;
