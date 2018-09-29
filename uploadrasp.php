@@ -396,7 +396,7 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								$qtdeDeLinhas = count($lines) - 5;
+								$qtdeDeLinhas = count($lines) - 4;
 							
 								// echo "tudo isso de linhas AQUIIIi? ". $qtdeDeLinhas;
 								
@@ -810,7 +810,7 @@ if(is_dir($diretoriofinal)){
 								
 							case "MONITORAMENTO":	
 							
-								$qtdeDeLinhas = count($lines) - 5;
+								$qtdeDeLinhas = count($lines) - 4;
 							
 								// echo "tudo isso de linhas? ". $qtdeDeLinhas;
 								
