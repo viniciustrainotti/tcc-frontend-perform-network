@@ -23,6 +23,8 @@ echo "</br>";
 echo "<label>Retorno da Tabela ARP do Dispositivo</label>";
 
 echo "<p class='form-control-static'>";
+
+// echo $pvid;
 		
 $query = "SELECT arp_comparacao FROM arp WHERE pvid = '$pvid' ORDER BY idarp";
 	$result = $mysqli->query($query);
