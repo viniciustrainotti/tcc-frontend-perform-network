@@ -103,7 +103,11 @@ $email = $_SESSION["email"];
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse">
 
-				<?php include 'menu_navbar.php' ?>
+				<ul class="nav" id="side-menu">
+					
+					<?php include 'menu_navbar.php' ?>
+					
+				</ul>
 
 			</div>
 		</div>
@@ -115,7 +119,7 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Resultado</h1>
+						<h1 class="page-header">Response Time</h1>
 					</div>
 				</div>
 				<!-- /.row -->

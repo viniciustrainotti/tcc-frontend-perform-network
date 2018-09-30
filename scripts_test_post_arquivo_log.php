@@ -1,5 +1,7 @@
 <?php
-require('dbconnect_system.php');
+$conn = @mysql_connect('localhost','root','') or die(mysql_error());
+
+mysql_select_db('teste', $conn);
 ?>
 
 <?php
@@ -24,7 +26,7 @@ $email = $_SESSION["email"];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Ferramenta de Analise de Desempenho de Rede</title>
+    <title>Startmin - Bootstrap Admin Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -97,8 +99,37 @@ $email = $_SESSION["email"];
 
 				<ul class="nav" id="side-menu">
 					
-					<?php include 'menu_navbar.php' ?>
-					
+					<li>
+						<a href="devices.php" class="active"><i class="fa fa-cubes fa-fw"></i> Dispositivos</a>
+					</li>
+					<li>
+						<a href="profile.php" class="active"><i class="fa fa-cube fa-fw"></i> Perfil</a>
+					</li>
+					<li>
+						<a href="scripts.php" class="active"><i class="fa fa-tasks fa-fw"></i> Scripts</a>
+					</li>
+					<li>
+						<a href="bindings.php" class="active"><i class="fa fa-sheqel fa-fw"></i> Vinculações</a>
+					</li>
+					<li>
+						<a href="run.php" class="active"><i class="fa fa-play fa-fw"></i> Executar</a>
+					</li>
+					<li>
+						<a href="results.php"><i class="fa fa-bar-chart fa-fw"></i> Resultados<!-- <span class="fa arrow"></span> --></a>
+						<!-- <ul class="nav nav-second-level">
+							<li>
+								<a href="#">Second Level Item</a>
+							</li>
+							<li>
+								<a href="#">Third Level <span class="fa arrow"></span></a>
+								<ul class="nav nav-third-level">
+									<li>
+										<a href="#">Third Level Item</a>
+									</li>
+								</ul>
+							</li>
+						</ul>-->
+					</li>
 				</ul>
 
 			</div>
@@ -111,7 +142,7 @@ $email = $_SESSION["email"];
 
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Dispositivos</h1>
+						<h1 class="page-header">Scripts</h1>
 					</div>
 				</div>
 
@@ -120,79 +151,71 @@ $email = $_SESSION["email"];
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								Quantidade de Dispositivos vinculados a essa conta em relação ao seus Status
-							</div>                            
+								Escolha o Script para edição/exclusão ou adicione novos
+							</div>						
 							<div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>PVID</th>
-                                                <th>USER</th>
-                                                <th>SENHA</th>
-                                                <th>NOME</th>
-												<th>STATUS</th>
-												<th>SERVIÇO</th>
-												<th>ADDRESS ESTÁTICO</th>
-												<th>NETMASK ESTÁTICO</th>
-												<th>GATEWAY ESTÁTICO</th>
-												<th>NAMESERVER ESTÁTICO</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-										<?php 
-										
+							
+								<p>Escolha o Script na lista para edição</p>
+								<div class="form-group">
+									<label>SCRIPT</label>
+									<select class="form-control" name="disp">
+									<?php
+									
 										require_once('dbconnect.php');
-
-										$query = "SELECT pvid, user, senha, nome, conectado, servicos, DHCP_ip, DHCP_mascara, DHCP_gateway, DHCP_dns, usou_dhcp FROM dispositivos ORDER BY pvid";
+										
+										$query = "SELECT nomescript FROM scripts";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
 											$data[] = $row;
-											$pvid = $row["pvid"];
-											$user = $row["user"];
-											$senha = $row["senha"];
-											$nome = $row["nome"];
-											$conectado = $row["conectado"];
-											if($conectado == 0){
-												$conectado = "OFFLINE";
-												$color = "red";
-											}else{
-												$conectado = "ONLINE";
-												$color = "green";
-											}
-											$servicos = $row["servicos"];
-											if($servicos == 0){
-												$servicos = "SEM SERVIÇO";
-											}else{
-												$servicos = "COM SERVIÇO";
-											}
-											$DHCP_ip = $row["DHCP_ip"];
-											$DHCP_mascara = $row["DHCP_mascara"];
-											$DHCP_gateway = $row["DHCP_gateway"];
-											$DHCP_dns = $row["DHCP_dns"];
-											$usou_dhcp = $row["usou_dhcp"];
-											if($usou_dhcp == 0){											
-												$color1 = "white";
-											}else{
-												$color1 = "blue";
-											}
+											$nomescript = $row["nomescript"];
 											
-											echo "<tr><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servicos."</td><td style='background:".$color1.";'>".$DHCP_ip."</td><td>".$DHCP_mascara."</td><td>".$DHCP_gateway."</td><td>".$DHCP_dns."</td></tr>";
-										}?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
+											echo "<option>".$nomescript."</option>";
+										}
+									?>
+									</select>
+								</div>
+									<p>Escolhe o grupo do script respectivamente</p>
+									<div class="form-group">
+										<label>GRUPO</label>
+										<select class="form-control" name="perfil">
+										<?php
+										
+											require_once('dbconnect.php');
+											
+											$query = "SELECT grupos FROM scripts_grupos";
+											$result = $mysqli->query($query);
+											
+											while($row = $result->fetch_assoc()){
+												$data[] = $row;
+												$gruposcript = $row["grupos"];
+												
+												echo "<option>".$gruposcript."</option>";
+											}
+										?>
+										</select>
+									</div>
+								<form method="post" action="uploadlograsp.php" enctype="multipart/form-data">
+									<!-- upload of a single file -->
+									<p>
+										<label>Selecione o Script para adicionar conforme o Grupo acima </label><br/>
+										<input type="file" name="lograspfile"/>
+									</p>
+									<p>
+										<button type="submit" class="btn btn-primary">Uploaddddd</button>
+										<!--<button type="submit" class="btn btn-success" name="selecao" value="2">Download</button>
+										<button type="submit" class="btn btn-danger" name="selecao" value="3">Delete</button>
+										<!-- <input type="submit"/> -->
+									</p>
+								</form>
+							</div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
-								Observações: A cada 30 segundos é atualizado automaticamente a página.
+								Observações
 							</div>
 						</div>
 					</div>
 					<!-- /.col-lg-1 -->
-					
 				</div>
 			</div>
 		</div>
@@ -203,8 +226,8 @@ $email = $_SESSION["email"];
 <script src="js/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-
 <script src="js/bootstrap.min.js"></script>
+
 <!-- Metis Menu Plugin JavaScript -->
 <script src="js/metisMenu.min.js"></script>
 
@@ -213,24 +236,6 @@ $email = $_SESSION["email"];
 
 </body>
 </html>
-
-<?php
-
-require_once('dbconnect.php');
-
-$query = "SELECT pvid FROM dispositivos WHERE conectado = 1";
-$result = $mysqli->query($query);
-
-while($row = $result->fetch_assoc()){
-	$data[] = $row;
-	$pvid = $row["pvid"];
-}
-
-$query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
-$result1 = $mysqli->query($query1);
-
-echo "<meta HTTP-EQUIV='refresh' CONTENT='30;URL=devices.php'>";
-?>
 
 
 
