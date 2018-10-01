@@ -223,7 +223,7 @@ $email = $_SESSION["email"];
 												$resultspvid = NULL;
 											}
 											
-											$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' ORDER BY idretorno_scripts_teste;";
+											$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' AND retorno_scripts_testecol = '1' ORDER BY idretorno_scripts_teste;";
 											$result = $mysqli->query($query);
 											
 											while($row = $result->fetch_assoc()){
