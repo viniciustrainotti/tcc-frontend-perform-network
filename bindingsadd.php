@@ -163,7 +163,7 @@ switch ($selecao) {
 			
 			$arquivo_final = $cabecalho . $info_source . $rep_pvid . $rep_servicos . $rep_script . $linha_fixa_1 . $linha_fixa_2 . $cabecalho_parametros . $conteudo_parametros_array . $cabecalho_script . $conte_script . $rodape;
 			
-			echo $arquivo_final;
+			// echo $arquivo_final;
 			
 			$sql_qtde_parametros = mysql_query("SELECT COUNT(*) AS qtde_parametros FROM perfil_script_parametro WHERE nome_perfil = '$perfil' AND nome_script = '$nome_script[$i]';") or die(mysql_error());
 			
