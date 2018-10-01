@@ -531,6 +531,8 @@ if(is_dir($diretoriofinal)){
 			
 	deleteDirectory($diretorioExcluir);
 	
+	unlink($uploaddir . "log.tar");
+	
 	//echo 'Aqui está mais informações de debug:';
 	//print_r($_FILES);
 
@@ -955,6 +957,8 @@ if(is_dir($diretoriofinal)){
 	$diretorioExcluir = $uploaddir . "home";
 			
 	deleteDirectory($diretorioExcluir);
+	
+	unlink($uploaddir . "log.tar");
 	
 	//echo 'Aqui está mais informações de debug:';
 	//print_r($_FILES);
