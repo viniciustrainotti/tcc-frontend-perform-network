@@ -132,7 +132,6 @@ $email = $_SESSION["email"];
                                                 <th>SERVIÇO</th>
 												<th>DOWNLOAD</th>
 												<th>STATUS</th>
-												<th>THREAD</th>
 												<th>HABILITADO</th>
                                             </tr>
                                         </thead>
@@ -141,7 +140,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid WHERE servicos.download = 'S' ORDER BY idservicos";
+										$query = "SELECT pvid, perfil, nome_servico, download, conectado, finalizado, servico_disp FROM servicos INNER JOIN dispositivos ON servicos.dispositivo = dispositivos.pvid WHERE servicos.download = 'S' AND dispositivos.user = '$email' ORDER BY idservicos";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
@@ -176,7 +175,7 @@ $email = $_SESSION["email"];
 												$servico_disp = "HABILITADO";
 											}
 											
-											echo "<tr id='somerow'><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servicos."</td><td>".$servico_disp."</td></tr>";
+											echo "<tr id='somerow'><td>".$pvid."</td><td>".$user."</td><td>".$senha."</td><td>".$nome."</td><td style='background:".$color.";color: #fff;'>".$conectado."</td><td>".$servico_disp."</td></tr>";
 										}?>
                                         </tbody>
                                     </table>
