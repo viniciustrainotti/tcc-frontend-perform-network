@@ -8,10 +8,10 @@ require("dbconnect_system.php");
 <title>Adicionando Perfil</title>
 <script type = "text/javascript">
 function loginsucessfully(){
-	setTimeout("window.location='profile.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 function loginfailed(){
-	setTimeout("window.location='profile.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 </script>
 </head>

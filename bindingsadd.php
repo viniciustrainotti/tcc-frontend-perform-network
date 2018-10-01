@@ -8,10 +8,10 @@ require("dbconnect_system.php");
 <title>Adicionando Vinculações</title>
 <script type = "text/javascript">
 function loginsucessfully(){
-	setTimeout("window.location='bindings.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 function loginfailed(){
-	setTimeout("window.location='bindings.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 </script>
 </head>

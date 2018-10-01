@@ -8,10 +8,10 @@ require("dbconnect_system.php");
 <title>Adicionando Dispositivo</title>
 <script type = "text/javascript">
 function loginsucessfully(){
-	setTimeout("window.location='devices.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 function loginfailed(){
-	setTimeout("window.location='devices.php'", 2000);
+	setTimeout("window.location='index.php'", 2000);
 }
 </script>
 </head>
