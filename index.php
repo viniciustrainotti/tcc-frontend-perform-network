@@ -174,7 +174,7 @@ $email = $_SESSION["email"];
                             </div>
                             <!-- /.panel-body -->
 							<div class="panel-footer">
-								Observações: A cada 30 segundos é atualizado automaticamente a página.
+								Observações: A cada 60 segundos é atualizado automaticamente a página.
 							</div>
 						</div>
 					</div>
