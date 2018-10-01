@@ -178,7 +178,7 @@ $result = mysqli_query($connect, $query);
 $chart_data = '';
 while($row = mysqli_fetch_array($result))
 {
-	$chart_data .= "{ y: ".$row["idretorno_script_monitoramento_ping"].", a: ".$row["valor"]."}, ";
+	$chart_data .= "{ y: '".$row["date"]."', a: ".$row["valor"]."}, ";
 }
 $chart_data = substr($chart_data, 0, -2);
 ?>
