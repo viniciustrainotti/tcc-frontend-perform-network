@@ -186,129 +186,7 @@ $email = $_SESSION["email"];
 					</div>
 					
 				</div>
-				
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Tabela resultado serviço PING
-							</div>                            
-							<div class="panel-body">
-                                <div style="overflow: auto; width: auto; height: 344px">
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>PVID</th>
-                                                <th>PERFIL</th>
-                                                <th>SERVIÇO</th>
-                                                <th>ICMP</th>
-												<th>TTL</th>
-												<th>MEDIDO (MS)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-											<?php 
-											
-											require_once('dbconnect.php');
-											
-											if(isset($_GET['servico'])){
-												$servico = $_GET['servico'];
-											}else{
-												$servico = NULL;
-											}
-																						
-											if(isset($_GET['resultspvid'])){
-												$resultspvid = $_GET['resultspvid'];
-											}else{
-												$resultspvid = NULL;
-											}
-											
-											$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' ORDER BY idretorno_scripts_teste;";
-											$result = $mysqli->query($query);
-											
-											while($row = $result->fetch_assoc()){
-												$data[] = $row;
-												$pvid_dispositivo = $row["pvid_dispositivo"];
-												$nome_perfil = $row["nome_perfil"];
-												$num_servico = $row["num_servico"];
-												$num_icmp = $row["num_icmp"];
-												$num_ttl = $row["num_ttl"];
-												$num_time = $row["num_time"];
-												
-												echo "<tr><td>".$pvid_dispositivo."</td><td>".$nome_perfil."</td><td>".$num_servico."</td><td>".$num_icmp."</td><td>".$num_ttl."</td><td>".$num_time."</td></tr>";
-											}?>	
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
-                            <!-- /.panel-body -->
-						</div>
-					</div>
-					<!-- /.col-lg-1 -->
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Serviço de Ping - Dispositvo <?php if(isset($_GET['resultspvid'])){ echo $_GET['resultspvid']; } else { echo "0"; } ?> - Serviço <?php if(isset($_GET['servico'])){ echo $_GET['servico']; } else { echo "0"; } ?>
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div id="chart"></div>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                    </div>
-                    <!-- /.col-lg-2 -->
-				</div>
-				<!-- col-lg-3 -->
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-                            <div class="panel-heading">
-                                Serviço DNS Resultado
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="form-group">
-									<label>Validação do retorno do serviço</label>
-									<p class="form-control-static">
-									<?php 
-										
-										require_once('dbconnect.php');
-										
-										if(isset($_GET['servico'])){
-											$servico = $_GET['servico'];
-										}else{
-											$servico = NULL;
-										}
-																					
-										if(isset($_GET['resultspvid'])){
-											$resultspvid = $_GET['resultspvid'];
-										}else{
-											$resultspvid = NULL;
-										}
-										
-										$query = "SELECT * FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' AND num_servico = '$servico' ORDER BY idretorno_scripts_teste;";
-										$result = $mysqli->query($query);
-										
-										while($row = $result->fetch_assoc()){
-											$data[] = $row;
-											$conteudo_dns = $row["conteudo_dns"];
-											
-											echo nl2br($conteudo_dns);
-										}
-										
-										
-										?>	
-									</p>
-								</div>
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-					</div>
-				</div>
-				
+			
 				<div class="row">
 					<div class="col-lg-12">
                         <div class="panel panel-default">
@@ -361,10 +239,10 @@ $email = $_SESSION["email"];
 									?>	
 									</br>
 									<div class="col-lg-6">
-										<label>Sender: Bandwidth <?php echo $retornoBandwidthSender ?> MBits/sec Transfer <?php echo $transferSender ?> MBytes</label>
+										<label>Sender: Bandwidth <?php if(isset($retornoBandwidthSender)){ echo $retornoBandwidthSender; } else { echo "0"; } ?> MBits/sec Transfer <?php if(isset($transferSender)){ echo $transferSender; } else { echo "0"; } ?> MBytes</label>
 									</div>
 									<div class="col-lg-6">
-										<label>Receiver: Bandwidth <?php echo $retornoBandwidthReceiver ?> MBits/sec Transfer <?php echo $transferReceiver ?> MBytes</label>
+										<label>Receiver: Bandwidth <?php if(isset($retornoBandwidthReceiver)){ echo $retornoBandwidthReceiver; } else { echo "0"; } ?> MBits/sec Transfer <?php if(isset($transferReceiver)){ echo $transferReceiver; } else { echo "0"; } ?> MBytes</label>
 									</div>
 								</div>
                             </div>
@@ -395,26 +273,8 @@ $email = $_SESSION["email"];
 
 <?php
 
-if(isset($_GET['servico'])){
-	$servico = $_GET['servico'];
-}else{
-	$servico = NULL;
-}
-
-require_once('dbconnect.php');
-
-$connect = mysqli_connect($host, $user, $pass, $db_name);
-$query = "SELECT * FROM retorno_scripts_teste WHERE num_servico = '$servico' ORDER BY idretorno_scripts_teste";
-$result = mysqli_query($connect, $query);
-$chart_data = '';
-while($row = mysqli_fetch_array($result))
-{
-	$chart_data .= "{ y: ".$row["num_icmp"].", a: ".$row["num_time"]."}, ";
-}
-$chart_data = substr($chart_data, 0, -2);
-?>
-
-<?php
+$menorValorParaGraficoIperf = NULL;
+$menorValor = NULL;
 
 if(isset($_GET['servico'])){
 	$servico = $_GET['servico'];
@@ -438,21 +298,16 @@ while($row = mysqli_fetch_array($result))
 $chart_data_iperf = substr($chart_data_iperf, 0, -2);
 
 //echo(min($menorValor));
-$menorValorParaGraficoIperf = (min($menorValor)) - 1;
+
+if($menorValor != NULL){
+
+	$menorValorParaGraficoIperf = (min($menorValor)) - 1;
+
+}
+
+
 //echo $menorValorParaGraficoIperf;
 ?>
-
-<script>
-Morris.Line({
-	element : 'chart',
-	data : [ <?php echo $chart_data; ?>	],
-	xkey : 'y',
-	ykeys: ['a'],
-	labels : ['Valor medido (ms)'],
-	parseTime: false,
-    hideHover: true
-});
-</script>
 
 <script>
 Morris.Line({

@@ -6,7 +6,7 @@ $resultspvid = $_GET['resultspvid'];
 echo "<label>Escolha o Serviço</label>";
 echo "<select class='form-control' name='servico'>";
 				
-$query = "SELECT num_servico FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' GROUP BY num_servico";
+$query = "SELECT num_servico FROM retorno_scripts_teste WHERE pvid_dispositivo = '$resultspvid' GROUP BY num_servico UNION SELECT num_servico FROM teste.retorno_scripts_iperf WHERE pvid_dispositivo = '$resultspvid' GROUP BY num_servico";
 	$result = $mysqli->query($query);
 	
 	while($row = $result->fetch_assoc()){
