@@ -200,7 +200,6 @@ $email = $_SESSION["email"];
                                         <thead>
                                             <tr>
                                                 <th>PVID</th>
-                                                <th>PERFIL</th>
                                                 <th>SERVIÇO</th>
                                                 <th>ICMP</th>
 												<th>TTL</th>
@@ -236,7 +235,7 @@ $email = $_SESSION["email"];
 												$num_ttl = $row["num_ttl"];
 												$num_time = $row["num_time"];
 												
-												echo "<tr><td>".$pvid_dispositivo."</td><td>".$nome_perfil."</td><td>".$num_servico."</td><td>".$num_icmp."</td><td>".$num_ttl."</td><td>".$num_time."</td></tr>";
+												echo "<tr><td>".$pvid_dispositivo."</td><td>".$num_servico."</td><td>".$num_icmp."</td><td>".$num_ttl."</td><td>".$num_time."</td></tr>";
 											}?>	
                                         </tbody>
                                     </table>
