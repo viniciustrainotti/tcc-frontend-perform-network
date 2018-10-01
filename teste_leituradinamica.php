@@ -13,11 +13,11 @@ $findme = $time;
 $legthTime = strlen($time);
 $pos = $legthTime + strpos($mystring, $findme);
 
-// $mystring0 = $line;
-//$findme0   = 'ms';
-// $findme0 = $ms;
-// $pos0 = strpos($mystring0, $findme0);
-$pos0 = $ms;
+$mystring0 = $line;
+// $findme0   = 'ms';
+$findme0 = $ms;
+$pos0 = strpos($mystring0, $findme0);
+// $pos0 = $ms;
 
 // Note o uso de ===.  Simples == não funcionaria como esperado
 // por causa da posição de 'a' é 0 (primeiro) caractere.
@@ -55,9 +55,9 @@ return $rest;
 }
 
 // $line = 'no answer yet for icmp_seq=5';
-$line = '64 bytes from 192.168.100.43: icmp_seq=10 ttl=127 time=2.25 ms';
-$icmp_seq = 'icmp_seq=';
-$ms = strlen($line);
+$line = '[  4]   0.00-1.00   sec  2.06 MBytes  17.3 Mbits/sec  204    242 KBytes       ';
+$icmp_seq = 'Bytes';
+$ms = 'Mbits/sec';
 
 $no_response_icmp = no_response($line, $icmp_seq, $ms);
 

@@ -46,6 +46,26 @@ return $rest;
 
 }
 
+function iperf_b($line, $time, $ms){
+
+$mystring = $line;
+$findme = $time;
+$legthTime = strlen($time);
+$pos = $legthTime + strpos($mystring, $findme);
+
+$mystring0 = $line;
+// $findme0   = 'ms';
+$findme0 = $ms;
+$pos0 = strpos($mystring0, $findme0);
+
+$posfinal = $pos0 - $pos;
+
+$rest = substr($mystring, $pos, $posfinal);
+
+return $rest;
+
+}
+
 function deleteDirectory($dir) {
     if (!file_exists($dir)) {
         return true;
@@ -302,6 +322,14 @@ if(is_dir($diretoriofinal)){
 								
 								foreach($lines as $line){
 								
+								$linha = $line;
+								$icmp_seq = 'Bytes';
+								$ms = 'Mbits/sec';
+
+								$result_band = iperf_b($line, $icmp_seq, $ms);
+
+								$bandwidth = trim($result_band);
+								
 									$line = trim($line);
 									$valor = explode(' ', $line);
 									//var_dump($valor);
@@ -326,7 +354,7 @@ if(is_dir($diretoriofinal)){
 													
 													$transfer = $valor[10];
 												
-													$bandwidth = $valor[13];
+													// $bandwidth = $valor[13];
 													
 													$retr = $valor[18];
 													
@@ -344,7 +372,7 @@ if(is_dir($diretoriofinal)){
 													
 													$transfer = $valor[10];
 												
-													$bandwidth = $valor[13];
+													// $bandwidth = $valor[13];
 													
 													$retr = 0;
 													
@@ -364,7 +392,7 @@ if(is_dir($diretoriofinal)){
 												 
 												$transfer = $valor[9];
 												
-												$bandwidth = $valor[12];
+												// $bandwidth = $valor[12];
 												
 												$retr = $valor[17];
 												
@@ -384,7 +412,7 @@ if(is_dir($diretoriofinal)){
 											
 											$transfer = $valor[10];
 										
-											$bandwidth = $valor[13];
+											// $bandwidth = $valor[13];
 											
 											$retr = $valor[18];
 											
@@ -404,7 +432,7 @@ if(is_dir($diretoriofinal)){
 									
 									}
 								}
-								
+							
 								break;
 								
 							case "MONITORAMENTO":	
@@ -731,6 +759,14 @@ if(is_dir($diretoriofinal)){
 								
 								foreach($lines as $line){
 								
+								$linha = $line;
+								$icmp_seq = 'Bytes';
+								$ms = 'Mbits/sec';
+
+								$result_band = iperf_b($line, $icmp_seq, $ms);
+
+								$bandwidth = trim($result_band);
+								
 									$line = trim($line);
 									$valor = explode(' ', $line);
 									//var_dump($valor);
@@ -755,7 +791,7 @@ if(is_dir($diretoriofinal)){
 													
 													$transfer = $valor[10];
 												
-													$bandwidth = $valor[13];
+													// $bandwidth = $valor[13];
 													
 													$retr = $valor[18];
 													
@@ -773,7 +809,7 @@ if(is_dir($diretoriofinal)){
 													
 													$transfer = $valor[10];
 												
-													$bandwidth = $valor[13];
+													// $bandwidth = $valor[13];
 													
 													$retr = 0;
 													
@@ -793,7 +829,7 @@ if(is_dir($diretoriofinal)){
 												 
 												$transfer = $valor[9];
 												
-												$bandwidth = $valor[12];
+												// $bandwidth = $valor[12];
 												
 												$retr = $valor[17];
 												
@@ -813,7 +849,7 @@ if(is_dir($diretoriofinal)){
 											
 											$transfer = $valor[10];
 										
-											$bandwidth = $valor[13];
+											// $bandwidth = $valor[13];
 											
 											$retr = $valor[18];
 											
