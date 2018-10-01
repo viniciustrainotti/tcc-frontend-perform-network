@@ -141,7 +141,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT pvid, user, senha, nome, conectado, servicos FROM dispositivos ORDER BY pvid";
+										$query = "SELECT pvid, user, senha, nome, conectado, servicos FROM dispositivos WHERE user = '$email' ORDER BY pvid";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
