@@ -226,6 +226,7 @@ while($row = $result->fetch_assoc()){
 	$pvid = $row["pvid"];
 	
 	$query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
+	// echo $query1;
 	$result1 = $mysqli->query($query1);
 }
 
