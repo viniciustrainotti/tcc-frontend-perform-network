@@ -358,7 +358,7 @@ if(is_dir($diretoriofinal)){
 													
 													$retr = $valor[18];
 													
-													$cwnd = $valor[31];
+													$cwnd = 'sender'
 													
 													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
 														
