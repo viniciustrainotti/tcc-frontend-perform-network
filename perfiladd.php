@@ -7,11 +7,11 @@ require("dbconnect_system.php");
 <head>
 <title>Adicionando Perfil</title>
 <script type = "text/javascript">
-function loginsucessfully(){
-	setTimeout("window.location='index.php'", 2000);
+function profile_vinc(){
+	setTimeout("window.location='profile_vinc.php'", 2000);
 }
-function loginfailed(){
-	setTimeout("window.location='index.php'", 2000);
+function profile(){
+	setTimeout("window.location='profile.php'", 2000);
 }
 </script>
 </head>
@@ -56,10 +56,10 @@ switch ($selecao) {
 
 		if ($sql == TRUE) {
 			echo "<center>Perfil Adicionado com Sucesso!</center>";
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>profile()</script>";
 		} else {
 			echo "<center>Não foi possível adicionar o Perfil!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>profile()</script>";
 		}
 		
        break;
@@ -77,10 +77,10 @@ switch ($selecao) {
 			
 			deleteDirectory($diretorioExcluir);
 			
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>profile()</script>";
 		} else {
 			echo "<center>Não foi possível Excluido o Perfil!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>profile()</script>";
 		}
 
         break;
@@ -102,11 +102,11 @@ switch ($selecao) {
 
 				if (copy($arquivo_origem, $arquivo_destino))
 				{
-					echo "Arquivo copiado com Sucesso.";
+					// echo "Arquivo copiado com Sucesso.";
 				}
 				else
 				{
-					echo "Erro ao copiar arquivo.";
+					// echo "Erro ao copiar arquivo.";
 				}
 			
 			}
@@ -121,19 +121,19 @@ switch ($selecao) {
 
 				if (copy($arquivo_origem, $arquivo_destino))
 				{
-					echo "Arquivo copiado com Sucesso.";
+					// echo "Arquivo copiado com Sucesso.";
 				}
 				else
 				{
-					echo "Erro ao copiar arquivo.";
+					// echo "Erro ao copiar arquivo.";
 				}
 			
 			}
 			
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>profile_vinc()</script>";
 		} else {
 			echo "<center>Não foi possível Vincular o Script e Parametro ao Perfil!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>profile_vinc()</script>";
 		}
 
         break;
@@ -147,10 +147,10 @@ switch ($selecao) {
 			$delFile = 'C:/wamp/www/slimtest/perfil/' . $perfil . '/' .$script;
 			echo unlink($delFile);
 			
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>profile_vinc()</script>";
 		} else {
 			echo "<center>Não foi possível Excluido o Vinculo!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>profile_vinc()</script>";
 		}
 
         break;
