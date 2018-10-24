@@ -224,10 +224,13 @@ $result = $mysqli->query($query);
 while($row = $result->fetch_assoc()){
 	$data[] = $row;
 	$pvid = $row["pvid"];
+	
+	$query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
+	$result1 = $mysqli->query($query1);
 }
 
-$query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
-$result1 = $mysqli->query($query1);
+// $query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
+// $result1 = $mysqli->query($query1);
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='60;URL=devices.php'>";
 ?>
