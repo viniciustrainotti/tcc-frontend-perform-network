@@ -96,7 +96,7 @@ switch ($selecao) {
 
 			if(is_dir($diretorio)){
 				
-				echo "aqui tem";
+				//echo "aqui tem";
 				$arquivo_origem = 'C:/wamp/www/slimtest/uploads/' . $grupo . '/' . $script;
 				$arquivo_destino = $diretorio . $script;
 
@@ -112,7 +112,7 @@ switch ($selecao) {
 			}
 			else{
 			
-				echo "não tem";
+				// echo "não tem";
 			
 				mkdir($diretorio, 0777, true);
 				
