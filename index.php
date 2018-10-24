@@ -266,7 +266,7 @@ while($row = $result->fetch_assoc()){
 	$pvid = $row["pvid"];
 }
 
-$query1 = "UPDATE dispositivos SET conectado = '0' WHERE pvid =$pvid";
+$query1 = "UPDATE dispositivos SET conectado = 0 WHERE pvid = $pvid";
 $result1 = $mysqli->query($query1);
 
 echo "<meta HTTP-EQUIV='refresh' CONTENT='60;URL=index.php'>";
