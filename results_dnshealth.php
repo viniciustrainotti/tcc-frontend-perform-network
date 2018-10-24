@@ -254,36 +254,3 @@ $email = $_SESSION["email"];
 </body>
 </html>
 
-<?php
-
-if(isset($_GET['servico'])){
-	$servico = $_GET['servico'];
-}else{
-	$servico = NULL;
-}
-
-require_once('dbconnect.php');
-
-$connect = mysqli_connect($host, $user, $pass, $db_name);
-$query = "SELECT * FROM retorno_scripts_teste WHERE num_servico = '$servico' ORDER BY idretorno_scripts_teste";
-$result = mysqli_query($connect, $query);
-$chart_data = '';
-while($row = mysqli_fetch_array($result))
-{
-	$chart_data .= "{ y: ".$row["num_icmp"].", a: ".$row["num_time"]."}, ";
-}
-$chart_data = substr($chart_data, 0, -2);
-?>
-
-<script>
-Morris.Line({
-	element : 'chart',
-	data : [ <?php echo $chart_data; ?>	],
-	xkey : 'y',
-	ykeys: ['a'],
-	labels : ['Valor medido (ms)'],
-	parseTime: false,
-    hideHover: true
-});
-</script>
-
