@@ -254,6 +254,7 @@ $email = $_SESSION["email"];
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <div id="chart"></div>
+								<center>sequencia icmp<center>
                             </div>
                             <!-- /.panel-body -->
                         </div>
