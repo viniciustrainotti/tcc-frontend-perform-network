@@ -219,7 +219,7 @@ $email = $_SESSION["email"];
 										
 										require_once('dbconnect.php');
 
-										$query = "SELECT nome_servico, perfil, dispositivo FROM servicos ORDER BY idservicos";
+										$query = "SELECT nome_servico, perfil, dispositivo FROM servicos INNER JOIN dispositivos ON dispositivos.pvid = servicos.dispositivo WHERE user = '$email' ORDER BY idservicos";
 										$result = $mysqli->query($query);
 										
 										while($row = $result->fetch_assoc()){
