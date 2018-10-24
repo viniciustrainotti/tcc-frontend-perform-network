@@ -7,11 +7,11 @@ require("dbconnect_system.php");
 <head>
 <title>Adicionando Vinculações</title>
 <script type = "text/javascript">
-function loginsucessfully(){
-	setTimeout("window.location='index.php'", 2000);
+function bindings_vinc(){
+	setTimeout("window.location='bindings_vinc.php'", 2000);
 }
-function loginfailed(){
-	setTimeout("window.location='index.php'", 2000);
+function bindings(){
+	setTimeout("window.location='bindings.php'", 2000);
 }
 </script>
 </head>
@@ -55,10 +55,10 @@ switch ($selecao) {
 
 		if ($sql == TRUE) {
 			echo "<center>Serviço Adicionado com Sucesso!</center>";
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>bindings()</script>";
 		} else {
 			echo "<center>Não foi possível adicionar o Serviço!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>bindings()</script>";
 		}
 		
        break;
@@ -69,10 +69,10 @@ switch ($selecao) {
 
 		if ($sql == TRUE) {
 			echo "<center>Serviço Excluido com Sucesso!</center>";
-			echo "<script>loginsucessfully()</script>";
+			echo "<script>bindings()</script>";
 		} else {
 			echo "<center>Não foi possível Excluido o Serviço!</center>";
-			echo "<script>loginfailed()</script>";
+			echo "<script>bindings()</script>";
 		}
 
         break;
@@ -179,7 +179,7 @@ switch ($selecao) {
 		
 		}
 		echo "Arquivo Vinculado com Sucesso!";
-		echo "<script>loginsucessfully()</script>";
+		echo "<script>bindings_vinc()</script>";
 	
 		//retirado a questao de arquivos e deixado só no WS REST
 		/*$sql = mysql_query("INSERT INTO servicos (nome_servico, perfil, dispositivo) VALUES ('$servico', '$perfil', '$dispositivo')") or die(mysql_error());
@@ -334,12 +334,12 @@ switch ($selecao) {
 		//deleteDirectory($diretorioExcluir);
 		
 		echo "<center>Vinculo Excluido com Sucesso!</center>";
-		echo "<script>loginsucessfully()</script>";
+		echo "<script>bindings_vinc()</script>";
 
         break;
 
     default:
-        echo "<script>loginsucessfully()</script>";
+        echo "<script>bindings_vinc()</script>";
 }
 
 mysql_close($conn);
