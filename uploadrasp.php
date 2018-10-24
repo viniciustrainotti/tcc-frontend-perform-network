@@ -358,7 +358,7 @@ if(is_dir($diretoriofinal)){
 													
 													$retr = $valor[18];
 													
-													$cwnd = 'sender'
+													$cwnd = 'sender';
 													
 													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
 														
@@ -781,11 +781,11 @@ if(is_dir($diretoriofinal)){
 										
 										if(strlen($valor[5]) == 10){
 										
-											if($valor[31] == 'sender' || $valor[32] == 'receiver'){
+											if(strpos($line, 'sender') !== false || strpos($line, 'receiver') !== false){
 											
 											//echo "entrou no sender ou receiver";
 											
-												if($valor[31] == 'sender'){
+												if(strpos($line, 'sender') !== false){
 												
 													//echo "entrou no sender";
 													
@@ -795,7 +795,7 @@ if(is_dir($diretoriofinal)){
 													
 													$retr = $valor[18];
 													
-													$cwnd = $valor[31];
+													$cwnd = 'sender';
 													
 													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
 														
@@ -813,7 +813,7 @@ if(is_dir($diretoriofinal)){
 													
 													$retr = 0;
 													
-													$cwnd = $valor[32];
+													$cwnd = 'receiver';
 													
 													$sql = "INSERT INTO retorno_scripts_iperf (pvid_dispositivo, num_servico, nome_script, data_hora, second, transfer, bandwidth, retro, cwnd) VALUES ('$arr[$i]', '$array_servicos[$j]', '$array_scripts[$k]', NOW(), '$second', '$transfer', '$bandwidth', '$retr', '$cwnd')";
 														
